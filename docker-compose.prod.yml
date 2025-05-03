@@ -1,0 +1,31 @@
+# /home/siisi/e-commerce/docker-compose.prod.yml
+
+services:
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - ecommerce_prod_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=django_db
+      - POSTGRES_USER=django_user
+      - POSTGRES_PASSWORD=secret_password
+
+  ecommerce:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: gunicorn ecommerce.wsgi:application --bind 0.0.0.0:8005
+    environment:
+      - DATABASE_URL=postgres://django_user:secret_password@db:5432/django_db
+      - DEBUG=0
+    depends_on:
+      - db
+    ports:
+      - "8005:8005"
+
+
+volumes:
+  ecommerce_prod_data:
+  static_volume:
+  media_volume:

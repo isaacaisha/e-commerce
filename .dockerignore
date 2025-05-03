@@ -1,0 +1,13 @@
+# /home/siisi/e-commerce/.dockerignore
+
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+env
+venv
+.git
+.gitignore
+.DS_Store
+/staticfiles
+/media
