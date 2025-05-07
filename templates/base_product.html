@@ -1,0 +1,105 @@
+<!-- /home/siisi/e-commerce/store/templates/base_product.html -->
+{% load static %}
+
+<!-- Section-->
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg">
+                <div class="row g-0 align-items-center">
+                    <!-- Image Left -->
+                    <div class="col-md-6 position-relative">
+                        {% if product.is_sale %}
+                        <div class="badge bg-danger text-white position-absolute rounded-pill px-3 py-1"
+                            style="top: 1rem; right: 1rem; font-size: 0.8rem;">
+                            SALE
+                        </div>
+                        {% endif %}
+                        <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.name }}">
+                    </div>
+
+                    <!-- Details Right -->
+                    <div class="col-md-6">
+                        <div class="card-body p-4">
+                            <h3 class="card-title text-center fw-bold">{{ product.name }}</h3>
+                            <p class="card-text">
+                                {% if product.is_sale %}
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="text-muted me-2"><strike>${{ product.price }}</strike></span>
+                                <span class="text-success h5 mb-0 fw-bold">${{ product.sale_price }}</span>
+                            </div>
+                            <div class="text-warning small mb-3">
+                                <i class="bi bi-star-fill"></i> Sale item
+                            </div>
+                            {% else %}
+                            <div class="h5 text-dark mb-3">${{ product.price }}</div>
+                            {% endif %}
+                            </p>
+                            {% if show_quantity %}
+                            <div class="row mb-3">
+                                <div class="col-auto">Quantity:</div>
+                                <div class="col-auto">
+                                    <select class="form-select form-select-sm w-auto"
+                                            id="qty-cart">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Update Quantity -->
+                            {% if show_quantities %}
+                            <div class="row mb-3">
+                                <div class="col-auto">Quantity:</div>
+                                <div class="col-auto">
+                                    <select class="form-select form-select-sm w-auto" id="select{{product.id}}">                        
+                                        {% for key, value in quantities.items %}
+                                            {% if key == product.id|slugify %}
+                                                <option selected value="{{ value }}">{{ value }}</option>
+                                            {% else %}
+                                                <option value="{{ value }}">{{ value }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                                <p class="card-text text-muted mb-3 mt-3">{{ product.description }}</p>
+                                <div class="container text-center">
+                                    <button data-url="{% url 'cart_update' %}"
+                                            data-csrf="{{ csrf_token }}"
+                                            data-index="{{product.id}}" 
+                                            type="button"
+                                            class="btn btn-secondary update-cart"
+                                            >
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="text-center mb-3">
+                                {% if show_add_button %}
+                                <button id="add-cart"
+                                        data-url="{% url 'cart_add' %}"
+                                        data-csrf="{{ csrf_token }}"
+                                        value="{{ product.id }}"
+                                        type="button"
+                                        class="btn btn-secondary" 
+                                        >
+                                    Add To Cart
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom theme JS-->
+<script src="{% static 'js/base_product.js' %}"></script>

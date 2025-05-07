@@ -1,0 +1,36 @@
+<!-- /home/siisi/e-commerce/store/templates/register.html -->
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon.ico' %}">
+{% endblock %}
+
+<!-- Header -->
+{% block header_title %}Register{% endblock %}
+{% block header_subtitle %}An Account{% endblock %}
+
+{% block content %}
+<!-- Section-->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="text-center mb-5">
+                    <button type="submit" class="btn btn-secondary mb-3 mt-3">Register</button>
+                    <p class="mt-3 text-muted">
+                        Already have an account?
+                        <a href="{% url 'login' %}" class="text-decoration-none">Log in here</a>
+                    </p>
+                </div>    
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

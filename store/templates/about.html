@@ -1,0 +1,59 @@
+<!-- /home/siisi/e-commerce/store/templates/about.html -->
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+{% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon.ico' %}">
+{% endblock %}
+
+<!-- Header -->
+{% block header_title %}<h1 class="display-4 fw-bolder">About Us</h1>{% endblock %}
+{% block header_subtitle %}
+<p class="lead fw-normal text-white-50 mb-0">
+    Welcome To ·SìįSí·E-Commerce·
+</p>
+{% endblock %}
+
+{% block content %}
+<!-- Section-->
+<div class="container mt-3">
+    <div class="row">
+        <center>
+            <div class="col-8">
+                <p align="justify-content-center">
+                    Lorem Ipsum
+                    "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+                    "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+                    <br><br>
+
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tempus, lacus quis tempor imperdiet, risus ligula
+                    ullamcorper massa, lacinia pulvinar risus orci at urna. Sed mattis orci ac arcu consequat lacinia eget vitae nibh. Ut in
+                    urna massa. Phasellus augue lorem, mattis id bibendum id, egestas quis ex. Nunc commodo, massa iaculis mattis dictum,
+                    lacus magna ornare quam, non finibus felis ante sit amet tellus. Proin ut sagittis quam, ut cursus ligula. Donec auctor,
+                    augue aliquet auctor placerat, sem mi suscipit nunc, et suscipit urna ex semper ante. Morbi a mi vitae odio euismod
+                    tincidunt sed finibus enim.
+                    <br><br>
+
+                    Etiam purus neque, laoreet quis dolor id, facilisis faucibus tellus. Praesent eget metus ut enim bibendum bibendum nec
+                    ac est. Nunc ultrices tempus semper. Etiam iaculis neque vel mi aliquam, rutrum vestibulum ligula malesuada. Sed viverra
+                    augue non felis viverra rhoncus. Aliquam at dapibus quam. Nunc vel leo vel nunc fermentum bibendum vel sed sapien.
+                    <br><br>
+
+                    Generated 3 paragraphs, 290 words, 1917 bytes of Lorem Ipsum
+                    help@lipsum.com
+                    Privacy Policy ·
+                </p>
+            </div>
+        </center>
+    </div>
+    <div class="text-center mb-5 mt-3">
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Go Back
+        </a>
+    </div>
+</div>
+{% endblock %}

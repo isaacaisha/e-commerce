@@ -5,24 +5,31 @@ services:
     image: postgres:latest
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env
     environment:
-      - POSTGRES_DB=django_db
-      - POSTGRES_USER=django_user
-      - POSTGRES_PASSWORD=secret_password
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
   ecommerce:
     build:
       context: .
-    command: gunicorn ecommerce.wsgi:application --bind 0.0.0.0:8005
+    #command: gunicorn ecommerce.wsgi:application --bind 0.0.0.0:8005 --log-level debug
+    command: gunicorn ecommerce.wsgi:application --bind 0.0.0.0:8005 --log-level debug --access-logfile /var/log/siisi/e-commerce/logs/e-commerce.log --error-logfile /var/log/siisi/e-commerce/logs/e-commerce.log
     volumes:
       - .:/app
+      - ./logs:/var/log/siisi/e-commerce/logs
     ports:
-      - "8005:8005"
+      - "8006:8005"
     depends_on:
       - db
+    env_file:
+      - .env
     environment:
-      - DATABASE_URL=postgres://django_user:secret_password@db:5432/django_db
-      - DEBUG=1
+      - SECRET_KEY=${SECRET_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+      - DEBUG=${DEBUG}
 
 volumes:
   postgres_data:

@@ -4,19 +4,30 @@ import os
 import dj_database_url
 
 
-# Load environment variables from .env file
-dotenv.load_dotenv(dotenv_path=Path(__file__).resolve().parent / '.env')
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load environment variables from .env file
+dotenv.load_dotenv(dotenv_path=Path(__file__).resolve().parent / '.env')
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-f@j(6_gyjjq$o(=+*q1w9x4(!nv3_lq6i@tne%s3*wz7h@+won'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1', 'e-commerce.siisi.online', 'www.e-commerce.siisi.online']
+
+# Add your HTTPS domain to trusted origins
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8007', 
+    'https://e-commerce.siisi.online', 
+    'https://www.e-commerce.siisi.online'
+]
+
+# Ensure secure cookies for HTTPS
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
 
 
 # Application definition
@@ -30,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'store',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -55,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -118,7 +131,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type

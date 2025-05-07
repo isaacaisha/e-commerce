@@ -1,0 +1,43 @@
+<!-- /home/siisi/e-commerce/cart/templates/cart_summary.html -->
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon1.ico' %}">
+{% endblock %}
+
+<!-- Header -->
+{% block header_title %}<h1 class="display-4 fw-bolder">Shopping Cart</h1>{% endblock %}
+{% block header_subtitle %}
+<p class="lead fw-normal text-white-50 mb-0">
+   View Your Cart... .
+</p>
+{% endblock %}
+
+{% block content %}
+<!-- Section-->
+<div class="container mb-5 mt-5">
+   {% if cart_products %}
+      {% for product in cart_products %}
+         {% include 'base_product.html' with show_quantities=True %}
+      {% endfor %}
+      <div class="text-center mt-5">
+         <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Go Back
+         </a>
+      </div>
+   {% else %}
+   <div class="container mb-5 mt-5"> There's Nothing In Your Cart... 😝!</div>
+
+   <div class="text-center mt-3">
+      <a href="javascript:history.back()" class="btn btn-outline-secondary">
+         <i class="bi bi-arrow-left"></i> Go Back
+      </a>
+   </div>
+   {% endif %}
+</div>
+{% endblock %}

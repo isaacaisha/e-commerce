@@ -1,0 +1,15 @@
+<!-- /home/siisi/e-commerce/store/templates/home.html -->
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon1.ico' %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'base_prod_carousel.html' %}
+{% endblock %}

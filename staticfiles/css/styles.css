@@ -4333,6 +4333,11 @@ textarea.form-control-lg {
   }
 }
 
+.card:hover {
+  transform: scale(1.05) !important;
+  transition: 0.3s ease-in-out !important;
+}
+
 .accordion {
   --bs-accordion-color: #212529;
   --bs-accordion-bg: #fff;
@@ -5989,6 +5994,18 @@ textarea.form-control-lg {
 }
 .carousel-dark .carousel-caption {
   color: #000;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(37%) sepia(99%) saturate(645%) hue-rotate(89deg) brightness(93%) contrast(90%);
+  border: 1px solid #28a745;
+  /* Bootstrap green */
+  border-radius: 25%;
+  box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+  width: 23px;
+  height: 23px;
+  padding: 5px; /* Optional: tweak for spacing inside the circle */
 }
 
 .spinner-grow,

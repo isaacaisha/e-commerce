@@ -13,7 +13,7 @@ python manage.py makemigrations
 python manage.py migrate
 
 sudo journalctl -u e-commerce.service -f
-python manage.py runserver 0.0.0.0:8005
+python manage.py runserver 0.0.0.0:8007
 
 # CONNECT POSTGRES
 sudo -i -u postgres
@@ -69,29 +69,39 @@ docker stop web
 # Start DB + Django runserver
 # Rebuild static assets & restart
 <!-- prod -->
-docker compose -f docker-compose.dev.yml run ecommerce python manage.py collectstatic
-docker-compose -f docker-compose.prod.yml down --volumes --remove-orphans
+docker compose -f docker-compose.prod.yml -p ecommerce_prod run ecommerce python manage.py collectstatic
+docker-compose -f docker-compose.prod.yml -p ecommerce_prod down --volumes --remove-orphans
 docker system prune -a --volumes 
-docker-compose -f docker-compose.prod.yml down -v
-docker-compose -f docker-compose.prod.yml up -d --build
-docker-compose -f docker-compose.prod.yml ps
-docker-compose -f docker-compose.prod.yml down
-docker-compose -f docker-compose.prod.yml up -d
-docker-compose -f docker-compose.prod.yml logs -f nginx
-docker-compose -f docker-compose.prod.yml logs -f web
+docker-compose -f docker-compose.prod.yml -p ecommerce_prod down -v
+docker-compose -f docker-compose.prod.yml -p ecommerce_prod up -d --build
+docker-compose -f docker-compose.prod.yml -p ecommerce_prod ps
+docker-compose -f docker-compose.prod.yml -p ecommerce_prod down
+docker-compose -f docker-compose.prod.yml -p ecommerce_prod up -d --remove-orphans
+docker-compose -f docker-compose.prod.yml -p ecommerce_prod logs -f nginx
+docker-compose -f docker-compose.prod.yml -p ecommerce_prod logs -f
 
 <!-- dev -->
-docker compose -f docker-compose.dev.yml run ecommerce python manage.py collectstatic
+docker compose -f docker-compose.dev.yml -p ecommerce_dev run ecommerce python manage.py collectstatic
 docker-compose -f docker-compose.dev.yml down --volumes --remove-orphans
 docker system prune -a --volumes 
-docker-compose -f docker-compose.dev.yml down -v
-docker-compose -f docker-compose.dev.yml up -d --build
-docker-compose -f docker-compose.dev.yml ps
-docker-compose -f docker-compose.dev.yml down
-docker-compose -f docker-compose.dev.yml up -d
-docker-compose -f docker-compose.dev.yml logs -f nginx
-docker-compose -f docker-compose.dev.yml logs -f web
+docker-compose -f docker-compose.dev.yml -p ecommerce_dev down -v
+docker-compose -f docker-compose.dev.yml -p ecommerce_dev up -d --build
+docker-compose -f docker-compose.dev.yml -p ecommerce_dev ps
+docker-compose -f docker-compose.dev.yml -p ecommerce_dev down
+docker-compose -f docker-compose.dev.yml -p ecommerce_dev up -d
+docker-compose -f docker-compose.dev.yml -p ecommerce_dev logs -f nginx
+docker-compose -f docker-compose.dev.yml -p ecommerce_dev logs -f
 
 # Apply migrations or create superuser
-docker-compose exec web python manage.py migrate
-docker-compose exec web python manage.py createsuperuser
+<!-- prod -->
+docker exec -it ecommerce_prod-ecommerce-1 python manage.py makemigrations
+docker exec -it ecommerce_prod-ecommerce-1 python manage.py migrate
+docker exec -it ecommerce_prod-ecommerce-1 python manage.py createsuperuser
+# Shell
+docker exec -it ecommerce_prod-ecommerce-1 python manage.py shell
+<!-- dev -->
+docker exec -it ecommerce_dev-ecommerce-1 python manage.py makemigrations
+docker exec -it ecommerce_dev-ecommerce-1 python manage.py migrate
+docker exec -it ecommerce_dev-ecommerce-1 python manage.py createsuperuser
+# Shell
+docker exec -it ecommerce_dev-ecommerce-1 python manage.py shell

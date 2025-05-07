@@ -1,0 +1,30 @@
+<!-- /home/siisi/e-commerce/store/templates/product.html -->
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon1.ico' %}">
+{% endblock %}
+
+<!-- Header -->
+{% block header_title %}
+<h1 class="display-4 fw-bolder">{{ product.name }}</h1>
+{% endblock %}
+
+{% block header_subtitle %}
+<p class="lead fw-normal text-white-50 mb-0">{{ product.category }}</p>
+{% endblock %}
+
+{% block content %}
+    {% include 'base_product.html' with show_add_button=True show_quantity=True %}
+
+    <div class="text-center mb-5">
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Go Back
+        </a>
+    </div>
+{% endblock %}
