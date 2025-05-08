@@ -1,61 +1,70 @@
 # /home/siisi/e-commerce/cart/views.py
 
 from django.shortcuts import render, get_object_or_404
-from .cart import Cart
-from store.models import Product
 from django.http import JsonResponse
-
 from datetime import datetime, timezone
 
+from .cart import Cart
+from store.models import Product
 
 def cart_summary(request):
-    # Get the cart
     cart = Cart(request)
-    cart_products = cart.get_prods
-    quantities = cart.get_quants
-
-    date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
-    
     context = {
-        'cart_products': cart_products,
-        'quantities': quantities,
-        'date': date
+        'cart_products': cart.get_prods(),
+        'quantities': cart.get_quants(),
+        'total_quantity': cart.total_quantity,
+        'totals' : cart.cart_total(),
+        'date': datetime.now(timezone.utc).strftime("%a %d %B %Y"),
     }
     return render(request, 'cart_summary.html', context)
 
-
 def cart_add(request):
-    # Get the car
-    cart = Cart(request)
-    # Test for POST
     if request.POST.get('action') == 'post':
-        # Get stuff
-        product_id = int(request.POST.get('product_id'))
-        product_qty = int(request.POST.get('product_qty'))
-        # Lookup product in DB
-        product = get_object_or_404(Product, id=product_id)
-        # Save to session
-        cart.add(product=product, quantity=product_qty)
-        # Get Cart Quantity
-        cart_quantity = cart.__len__()
-        # Return Response
-        # response = JsonResponse({'product Name: ': product.name})
-        response = JsonResponse({'qty': cart_quantity})
-        return response
+        pid = int(request.POST['product_id'])
+        qty = int(request.POST['product_qty'])
+        product = get_object_or_404(Product, id=pid)
 
+        cart = Cart(request)
+        cart.add(product, qty)
 
-def cart_delete(request):
-    pass
-
+        msg = f"Added {product.name} (x{qty}) to your cart."
+        return JsonResponse({
+            'status': 'success',
+            'distinct_count': len(cart),
+            'total_quantity': cart.total_quantity,
+            'message': msg,
+        })
 
 def cart_update(request):
-    cart = Cart(request)
     if request.POST.get('action') == 'post':
-        # Get stuff
-        product_id = int(request.POST.get('product_id'))
-        product_qty = int(request.POST.get('product_qty'))
+        pid = int(request.POST['product_id'])
+        qty = int(request.POST['product_qty'])
+        product = get_object_or_404(Product, id=pid)
 
-        cart.update(product=product_id, quantity=product_qty)
+        cart = Cart(request)
+        cart.update(pid, qty)
 
-        response = JsonResponse({'qty': product_qty})
-        return response
+        msg = f"Updated '{product.name}' quantity to {qty}."
+        return JsonResponse({
+            'status': 'updated',
+            'distinct_count': len(cart),
+            'total_quantity': f'Total: {cart.total_quantity}',
+            'cart_total': cart.cart_total(),
+            'message': msg,
+        })
+
+def cart_delete(request):
+    if request.POST.get('action') == 'post':
+        pid = int(request.POST['product_id'])
+        cart = Cart(request)
+        cart.delete(pid)
+        product = get_object_or_404(Product, id=pid)
+
+        msg = f"Removed '{product.name}' from your cart."
+        return JsonResponse({
+            'status': 'deleted',
+            'distinct_count': len(cart),
+            'total_quantity': cart.total_quantity,
+            'cart_total': cart.cart_total(),
+            'message': msg,
+        })

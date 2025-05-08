@@ -6,10 +6,34 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateUserForm
 from django import forms
 
 from datetime import datetime, timezone
+
+
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
+        user_form = UpdateUserForm(request.POST or None, instance=current_user)
+
+        if user_form.is_valid():
+            user_form.save()
+
+            login(request, current_user)
+            messages.success(request, (
+                f"{current_user.username} Has Been Updated Successfully 👌🏿!"
+                ))
+            return redirect('home')
+        date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
+        context = {
+            'user_form': user_form,
+            'date' : date
+        }
+        return render(request, 'update_user.html', context)
+    else:
+        messages.success(request, "You must Be Logged In To Access That Page 🤣.")
+        return redirect('home')
 
 
 def category(request, foo):
@@ -92,10 +116,10 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, (f"{user.username} Log In Successfully 👌🏿"))
+            messages.success(request, (f"{user.username} Log In Successfully 👌🏿!"))
             return redirect('home')
         else:
-            messages.warning(request, ("There was an error, please try again. 😭"))
+            messages.warning(request, ("There was an error, please try again. 😭."))
             return redirect('login')
     else:
         date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
@@ -123,7 +147,7 @@ def register_user(request):
             # log in user
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, (f"{user.username} Successfully Registered 👌🏿"))
+            messages.success(request, (f"{user.username} Successfully Registered 👌🏿!"))
             return redirect('home')
         else:
             messages.warning(request, ("Whoops! There was a problem Registering, please try again 🤣."))

@@ -1,44 +1,51 @@
 <!-- /home/siisi/e-commerce/store/templates/base_prod_carousel.html -->
 
-<!-- Carousel -->
-<div id="carouselExampleIndicators" class="carousel slide mb-5 mt-5 w-75 mx-auto shadow-lg rounded"
-    data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        {% for product in products %}
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}"
-            class="{% if forloop.first %}active{% endif %}" aria-current="true"
-            aria-label="Slide {{ forloop.counter }}"></button>
-        {% endfor %}
-    </div>
-    <div class="carousel-inner rounded">
-        {% for product in products %}
-        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-            <img src="{{ product.image.url }}" class="d-block w-100 object-fit-cover" alt="{{ product.name }}"
-                style="max-height: 400px;">
-            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-3">
-                <h5 class="text-light">{{ product.name }}</h5>
-                <p>
-                    {% if product.is_sale %}
-                <div class="text-muted small mb-1"><strike>${{ product.price }}</strike></div>
-                <div class="text-success fw-bold">${{ product.sale_price }}</div>
-                {% else %}
-                <span class="text-light">${{ product.price }}</span>
-                {% endif %}
-                </p>
-            </div>
+<!-- Carousel HTML -->
+<div id="carouselExampleIndicators"
+     class="carousel slide mb-5 mt-5 w-75 mx-auto shadow-lg rounded">
+  <div class="carousel-indicators">
+    {% for product in products %}
+      <button type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="{{ forloop.counter0 }}"
+              class="{% if forloop.last %}active{% endif %}"
+              aria-current="{% if forloop.last %}true{% endif %}"
+              aria-label="Slide {{ forloop.counter }}">
+      </button>
+    {% endfor %}
+  </div>
+  <div class="carousel-inner rounded">
+    {% for product in products %}
+      <div class="carousel-item {% if forloop.last %}active{% endif %}">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}"
+             class="d-block w-100 object-fit-cover"
+             style="max-height: 400px;">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-3">
+          <h5 class="text-light">{{ product.name }}</h5>
+          <p>
+            {% if product.is_sale %}
+              <div class="text-muted small mb-1"><strike>${{ product.price }}</strike></div>
+              <div class="text-success fw-bold">${{ product.sale_price }}</div>
+            {% else %}
+              <span class="text-light">${{ product.price }}</span>
+            {% endif %}
+          </p>
         </div>
-        {% endfor %}
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-        data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-        data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
+      </div>
+    {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
 </div>
 
 <!-- Products Grid -->
@@ -49,12 +56,13 @@
             <div class="card h-100 shadow-sm border-0 rounded-4">
                 {% if product.is_sale %}
                 <div class="badge bg-danger text-white position-absolute rounded-pill px-3 py-1"
-                    style="top: 1rem; right: 1rem; font-size: 0.8rem;">
+                     style="top: 1rem; right: 1rem; font-size: 0.8rem;">
                     SALE
                 </div>
                 {% endif %}
-                <img class="card-img-top rounded-top-4" src="{{ product.image.url }}" alt="{{ product.name }}"
-                    style="object-fit: cover; height: 250px;">
+                <img class="card-img-top rounded-top-4"
+                     src="{{ product.image.url }}" alt="{{ product.name }}"
+                     style="object-fit: cover; height: 250px;">
                 <div class="card-body p-4 d-flex flex-column">
                     <div class="text-center mb-3">
                         <h5 class="fw-bold mb-2">{{ product.name }}</h5>
