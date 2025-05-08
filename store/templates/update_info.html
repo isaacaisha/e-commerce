@@ -1,20 +1,20 @@
-<!-- /home/siisi/e-commerce/store/templates/update_user.html -->
+<!-- /home/siisi/e-commerce/store/templates/update_info.html -->
 
 {% extends 'base.html' %}
 
 {% load static %}
 
-{% block title %}Update Profile{% endblock %}
+{% block title %}Update Info{% endblock %}
 
 {% block favicon %}
 <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon.ico' %}">
 {% endblock %}
 
 <!-- Header -->
-{% block header_title %}Update Your Profile{% endblock %}
+{% block header_title %}Update Your Informations{% endblock %}
 {% block header_subtitle %}
 <p class="lead fw-normal text-white-50 mb-0">
-    Set Your New Profile
+   Set Up Your Info
 </p>
 <i class="fa-solid fa-arrow-down text-white-50 mb-0"></i>
 {% endblock %}
@@ -24,17 +24,13 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <form method="POST" action="{% url 'update_user' %}">
+            <form method="POST" action="{% url 'update_info' %}">
                 {% csrf_token %}
-                {{ user_form.as_p }}
+                {{ info_form.as_p }}
                 <div class="text-center">
-                    <button type="submit" class="btn btn-secondary mb-3 mt-3">Update Profile</button>
+                    <button type="submit" class="btn btn-secondary mb-5 mt-3">Save Info</button>
                 </div>    
             </form>
-            <div class="text-center mb-5">
-                <a href="{% url 'update_password' %}"
-                   class="btn btn-primary">Update Password</a>
-            </div>
         </div>
     </div>
     <div class="text-center mb-5">
