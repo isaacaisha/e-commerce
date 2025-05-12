@@ -1,15 +1,45 @@
 #/home/siisi/e-commerce/store/views.py
 
 from django.shortcuts import render, redirect
-from .models import Product, Category, Profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm
 from django import forms
+from django.db.models import Q
+
+from .models import Product, Category, Profile
+from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm
 
 from datetime import datetime, timezone
+
+
+date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
+
+
+def search(request):
+    # Determine if they filled the form
+    if request.method == "POST":
+        searched = request.POST['searched']
+        # Query The Products DB Model
+        searched = Product.objects.filter(
+            Q(name__icontains=searched) | Q(description__icontains=searched)
+            )
+        # Test for null result
+        if not searched:
+            messages.warning(request, f"That Product Doesn't Exist... Please try Again 🤣.")
+            return redirect('search')
+        
+        context = {
+            'searched' : searched,
+            'date' : date
+        }
+        return render(request, 'search.html', context)
+    else:
+        context = {
+            'date' : date
+        }
+        return render(request, 'search.html', context)
 
 
 def update_info(request):
@@ -25,7 +55,6 @@ def update_info(request):
                 f"{request.user.username} Info Has Been Updated Successfully 👌🏿!"
                 ))
             return redirect('update_info')
-        date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
         context = {
             'info_form': info_form,
             'date' : date
@@ -56,7 +85,6 @@ def update_password(request):
                     return redirect('update_password')
         else:
             password_form = ChangePasswordForm(current_user)
-            date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
 
             context = {
                 'password_form': password_form,
@@ -81,7 +109,6 @@ def update_user(request):
                 f"{current_user.username} Has Been Updated Successfully 👌🏿!"
                 ))
             return redirect('home')
-        date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
         context = {
             'user_form': user_form,
             'date' : date
@@ -100,7 +127,6 @@ def category(request, foo):
         # Look up the Category
         category = Category.objects.get(name=foo)
         products = Product.objects.filter(category=category)
-        date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
         context = {
             'category' : category,
             'products' : products,
@@ -113,8 +139,6 @@ def category(request, foo):
             )
         return redirect('home')
 
-    date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
-
     context = {
         'category' : category,
         'date' : date
@@ -124,7 +148,6 @@ def category(request, foo):
 
 def category_list(request):
     categories = Category.objects.all()
-    date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
     
     context = {
         'categories': categories,
@@ -135,7 +158,6 @@ def category_list(request):
 
 def product(request, pk):
     product = Product.objects.get(id=pk)
-    date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
     
     context = {
         'product' : product,
@@ -146,7 +168,6 @@ def product(request, pk):
 
 def home(request):
     products = Product.objects.all()
-    date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
     
     context = {
         'products' : products,
@@ -156,7 +177,6 @@ def home(request):
 
 
 def about(request):
-    date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
     
     context = {
         'date' : date
@@ -178,7 +198,6 @@ def login_user(request):
             messages.warning(request, ("There was an error, please try again. 😭."))
             return redirect('login')
     else:
-        date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
         context = {
             'date' : date
         }
@@ -193,7 +212,6 @@ def logout_user(request):
 
 
 def register_user(request):
-    date = datetime.now(timezone.utc).strftime("%a %d %B %Y")
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():

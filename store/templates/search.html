@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Search{% endblock %}
+
+{% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon3.ico' %}">
+{% endblock %}
+
+<!-- Header -->
+{% block header_title %}
+<h1 class="display-4 fw-bolder">Search Products</h1>
+{% endblock %}
+{% block header_subtitle %}
+<p class="lead fw-normal text-white-50 mb-0">
+    Find what You're Looking for...
+</p>
+<i class="fa-solid fa-arrow-down text-white-50 mb-0"></i>
+{% endblock %}
+
+{% block content %}
+    <div class="container mb-3 mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card mb-5">
+                    <div class="card-header text-center">
+                        Search Products
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'search' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <input type="text" class="form-control" placeholder="Search For Products" name="searched"
+                                    autofocus>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-secondary">Search Products</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if searched %}
+        <div class="row justify-content-center">
+            {% for product in searched %}
+            <div class="col-md-4 mb-5 d-flex justify-content-center">
+                <div class="card h-100 shadow-sm border-0 rounded-4">
+                    {% if product.is_sale %}
+                    <div class="badge bg-danger text-white position-absolute rounded-pill px-3 py-1"
+                        style="top: 1rem; right: 1rem; font-size: 0.8rem;">
+                        SALE
+                    </div>
+                    {% endif %}
+                    <img class="card-img-top rounded-top-4" src="{{ product.image.url }}" alt="{{ product.name }}"
+                        style="object-fit: cover; height: 250px;">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="text-center mb-3">
+                            <h5 class="fw-bold mb-2">{{ product.name }}</h5>
+                            {% if product.is_sale %}
+                            <div class="text-muted small mb-1"><strike>${{ product.price }}</strike></div>
+                            <div class="text-success fw-bold">${{ product.sale_price }}</div>
+                            {% else %}
+                            <div class="fw-bold text-dark">${{ product.price }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mt-auto text-center">
+                            <a href="{% url 'product' product.id %}" class="btn btn-dark btn-sm rounded-pill">
+                                <i class="fas fa-magnifying-glass"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div class="text-center mt-3">
+            <a href="javascript:history.back()" class="btn btn-outline-secondary mb-5">
+                <i class="bi bi-arrow-left"></i> Go Back
+            </a>
+        </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<!-- /home/siisi/e-commerce/store/templates/search.html -->
