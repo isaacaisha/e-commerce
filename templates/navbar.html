@@ -28,7 +28,9 @@
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                       Profile
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{% url 'update_user' %}">User Profile</a></li>
                         <li><hr class="dropdown-divider" /></li>
@@ -38,44 +40,41 @@
                 {% endif %}
 
                 <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-            </ul>
 
-            <!-- Right-aligned elements -->
-            <div class="d-flex align-items-center gap-3">
-                <!-- Connexion Dropdown -->
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="connexionDropdown" role="button" data-bs-toggle="dropdown"
+                <!-- Right-aligned elements -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Connexion
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="connexionDropdown">
+                    <ul class="dropdown-menu mb-3" aria-labelledby="navbarDropdown">
                         {% if user.is_superuser %}
-                        <li class="dropdown-item"><a class="nav-link" href="/admin/">Admin</a></li>
+                        <li><a class="dropdown-item" href="/admin/">Admin</a></li>
                         {% endif %}
                         {% if user.is_authenticated %}
+                        <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                         {% else %}
                         <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+                        <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
                         {% endif %}
                     </ul>
-                </div>
-
-                <form class="d-flex">
+                </li>
+                
+                <form class="">
                     <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
-                        <span id="cart_quantity"
-                              class="badge bg-dark text-white ms-1 rounded-pill">
-                              {{ cart|length }}
+                        <span id="cart_quantity" class="badge bg-dark text-white ms-1 rounded-pill">
+                            {{ cart|length }}
                         </span>
-                        <span id="cart_total_quantity"
-                              class="badge bg-secondary text-white ms-1 rounded-pill">
-                              Total: {{ cart_total_quantity }}
+                        <span id="cart_total_quantity" class="badge bg-secondary text-white ms-1 rounded-pill">
+                            Total: {{ cart_total_quantity }}
                         </span>
                     </a>
                 </form>
-            </div>
+            </ul>
         </div>
     </div>
 </nav>

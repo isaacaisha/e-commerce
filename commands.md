@@ -43,8 +43,11 @@ sudo certbot renew --dry-run
 # kill all port runing
 sudo lsof -t -iTCP:8005 -sTCP:LISTEN | xargs sudo kill
 
-# Find Your Computer's Local IP Address
+# Find Computer's Local IP Address
 ifconfig | grep inet
+# Find Remote IP Address
+curl https://icanhazip.com
+142.93.235.205:8007
 
 # Testing
 python -m gunicorn --workers 3 --bind unix:/home/siisi/e-commerce/e-commerce.sock siisi.wsgi:application
