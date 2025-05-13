@@ -17,6 +17,7 @@ class Profile(models.Model):
     state = models.CharField(max_length=199, blank=True)
     zipcode = models.CharField(max_length=199, blank=True)
     country = models.CharField(max_length=199, blank=True)
+    old_cart = models.CharField(max_length=199, blank=True, null=True)
 
     def __str__(self):
         return self.user.username

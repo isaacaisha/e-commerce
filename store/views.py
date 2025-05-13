@@ -1,5 +1,6 @@
 # /home/siisi/e-commerce/store/views.py
 
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -8,6 +9,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.utils import timezone
 
+from cart.cart import Cart
 from .models import Product, Category, Profile
 from .forms import (
     SignUpForm,
@@ -85,6 +87,22 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
+            
+            # Do some shopping cart stuff
+            current_user = Profile.objects.get(user__id=request.user.id)
+            # Get their saved cart from DB
+            saved_cart = current_user.old_cart
+            # Convert DB string to python dictionary
+            if saved_cart:
+                # Convert to dictionary using json
+                converted_cart = json.loads(saved_cart)
+                # Add the loaded cart dictionary to our session
+                # Get the cart
+                cart = Cart(request)
+                # Look through the cart and add the items from DB 
+                for key,value in converted_cart.items():
+                    cart.db_add(product=key, quantity=value)
+
             messages.success(request, f"Welcome {user.username}, you are now logged in!")
             return redirect('home')
         messages.warning(request, "Invalid credentials. Please try again.")
