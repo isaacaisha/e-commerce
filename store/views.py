@@ -18,6 +18,9 @@ from .forms import (
     UserInfoForm,
 )
 
+from payment.models import ShippingAddress
+from payment.forms import ShippingForm
+
 
 def _current_date():
     return timezone.now().strftime("%a %d %B %Y")
@@ -89,7 +92,8 @@ def login_user(request):
             login(request, user)
             
             # Do some shopping cart stuff
-            current_user = Profile.objects.get(user__id=request.user.id)
+            #current_user = Profile.objects.get(user__id=request.user.id)
+            current_user, _ = Profile.objects.get_or_create(user=request.user)
             # Get their saved cart from DB
             saved_cart = current_user.old_cart
             # Convert DB string to python dictionary
@@ -143,14 +147,28 @@ def update_info(request):
         messages.warning(request, "You must be logged in to access that page.")
         return redirect('home')
 
+    # Get Current User's Profile
     profile = get_object_or_404(Profile, user=request.user)
+
+    # Get or create the user's ShippingAddress (assuming there's one per user)
+    shipping_user = ShippingAddress.objects.filter(user=request.user).first()
+    if not shipping_user:
+        shipping_user = ShippingAddress(user=request.user)
+
+    # Forms
     form = UserInfoForm(request.POST or None, instance=profile)
-    if form.is_valid():
-        form.save()
-        messages.success(request, f"{request.user.username}'s information updated successfully.")
-        return redirect('update_info')
+    shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
+
+    if request.method == "POST":
+        if form.is_valid() and shipping_form.is_valid():
+            form.save()
+            shipping_form.save()
+            messages.success(request, f"{request.user.username}'s information updated successfully.")
+            return redirect('update_info')
+
     return render(request, 'update_info.html', {
         'info_form': form,
+        'shipping_form': shipping_form,
         'date': _current_date(),
     })
 

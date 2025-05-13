@@ -39,6 +39,7 @@ $(function () {
   // UPDATE QUANTITY IN CART SUMMARY
   $(document).on("click", ".update-cart", function (e) {
     e.preventDefault();
+    const checkoutUrl = $("#cart-total").data("checkout-url");
     const btn = $(this),
       pid = btn.data("index"),
       newQty = $(`#select${pid}`).val();
@@ -55,7 +56,10 @@ $(function () {
         // update navbar badges
         $("#cart_quantity").text(json.distinct_count);
         $("#cart_total_quantity").text(json.total_quantity);
-        $("#cart-total").html(`<h3>Total: $${json.cart_total}</h3>`);
+        $("#cart-total").html(
+          `<h3>Total: $${json.cart_total}</h3>
+          <a href="${checkoutUrl}" class="btn btn-success mt-2">Checkout</a>`
+        );
         showMessage(json.message, "info");
       }
     );

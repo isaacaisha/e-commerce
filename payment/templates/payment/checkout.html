@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon1.ico' %}">
+{% endblock %}
+
+<!-- Header -->
+{% block header_title %}<h1 class="display-4 fw-bolder">Checkout</h1>{% endblock %}
+{% block header_subtitle %}
+<p class="lead fw-normal text-white-50 mb-0">
+   Review Your Order... .
+</p>
+{% endblock %}
+
+{% block content %}
+<!-- Section-->
+<div class="container mb-5 mt-5">
+    <div class="row mb-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header text-center">
+                    Order Summary
+                </div>
+                <div class="card-body">
+                    {% for product in cart_products %}
+                        {{ product.name }}:
+                        {% if product.is_sale %}
+                            ${{ product.sale_price }}
+                        {% else %}
+                            ${{ product.price }}
+                        {% endif %}
+
+                        <br>
+                        <small>
+                            Quantity:
+                            {% for key, value in quantities.items %}
+                                {% if key == product.id|stringformat:"s" %}
+                                    {{ value }}
+                                {% endif %}
+                            {% endfor %}
+                        </small>
+                        <br><hr>
+                    {% endfor %}
+                    <h6>Total: ${{ totals }}</h6>
+                    <div class="text-center">
+                        <a href="{% url 'cart_summary' %}" class="btn btn-secondary btn-sm">
+                            Update Items
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <div class="card-header text-center">
+                    Shipping Info
+                </div>
+                <div class="card-body">
+                    {{ shipping_form.as_p }}
+                </div>
+            </div>
+            <br>
+            <div class="text-center">
+                <a href="#" class="btn btn-secondary">Continue To Billing</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Go Back
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+<!-- /home/siisi/e-commerce/payment/templates/payment/checkout.html -->

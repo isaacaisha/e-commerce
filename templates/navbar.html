@@ -43,16 +43,16 @@
 
                 <!-- Right-aligned elements -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                    <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Connexion
                     </a>
                     <ul class="dropdown-menu mb-3" aria-labelledby="navbarDropdown">
                         {% if user.is_superuser %}
                         <li><a class="dropdown-item" href="/admin/">Admin</a></li>
+                        <li><hr class="dropdown-divider" /></li>
                         {% endif %}
                         {% if user.is_authenticated %}
-                        <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                         {% else %}
                         <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
