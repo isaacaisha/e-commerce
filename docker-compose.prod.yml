@@ -7,29 +7,31 @@ services:
     volumes:
       - ecommerce_prod_data:/var/lib/postgresql/data/
     env_file:
-      - .env
+      - .env.prod
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - ENVIRONMENT=prod
 
   ecommerce:
     build:
       context: .
       dockerfile: Dockerfile
-    #command: gunicorn ecommerce.wsgi:application --bind 0.0.0.0:8005 --log-level debug
-    command: gunicorn ecommerce.wsgi:application --bind 0.0.0.0:8005 --log-level debug --access-logfile /var/log/siisi/e-commerce/logs/e-commerce.log --error-logfile /var/log/siisi/e-commerce/logs/e-commerce.log
+    command:
+      - gunicorn
+      - ecommerce.wsgi:application
+      - --bind
+      - 0.0.0.0:8005
+      - --log-level=debug
+      - --access-logfile=/var/log/siisi/e-commerce/logs/e-commerce.log
+      - --error-logfile=/var/log/siisi/e-commerce/logs/e-commerce.log
     environment:
-      - SECRET_KEY=${SECRET_KEY}
-      - DATABASE_URL=${DATABASE_URL}
-      - DEBUG=${DEBUG_PROD}
+      - ENVIRONMENT=prod
     volumes:
       - ./logs:/var/log/siisi/e-commerce/logs
       - ./media:/app/media
     depends_on:
       - db
     env_file:
-      - .env
+      - .env.prod
     ports:
       - "8005:8005"
 

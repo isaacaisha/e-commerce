@@ -6,17 +6,21 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - .env
+      - .env.dev
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - ENVIRONMENT=dev
 
   ecommerce:
     build:
       context: .
-    #command: gunicorn ecommerce.wsgi:application --bind 0.0.0.0:8005 --log-level debug
-    command: gunicorn ecommerce.wsgi:application --bind 0.0.0.0:8005 --log-level debug --access-logfile /var/log/siisi/e-commerce/logs/e-commerce.log --error-logfile /var/log/siisi/e-commerce/logs/e-commerce.log
+    command:
+      - gunicorn
+      - ecommerce.wsgi:application
+      - --bind
+      - 0.0.0.0:8005
+      - --log-level=debug
+      - --access-logfile=/var/log/siisi/e-commerce/logs/e-commerce.log
+      - --error-logfile=/var/log/siisi/e-commerce/logs/e-commerce.log
     volumes:
       - .:/app
       - ./logs:/var/log/siisi/e-commerce/logs
@@ -25,11 +29,9 @@ services:
     depends_on:
       - db
     env_file:
-      - .env
+      - .env.dev
     environment:
-      - SECRET_KEY=${SECRET_KEY}
-      - DATABASE_URL=${DATABASE_URL}
-      - DEBUG=${DEBUG}
+      - ENVIRONMENT=dev
 
 volumes:
   postgres_data:

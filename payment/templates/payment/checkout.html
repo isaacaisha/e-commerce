@@ -5,7 +5,7 @@
 {% block title %}Checkout{% endblock %}
 
 {% block favicon %}
-<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon1.ico' %}">
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon.ico' %}">
 {% endblock %}
 
 <!-- Header -->
@@ -47,7 +47,7 @@
                     {% endfor %}
                     <h6>Total: ${{ totals }}</h6>
                     <div class="text-center">
-                        <a href="{% url 'cart_summary' %}" class="btn btn-secondary btn-sm">
+                        <a href="{% url 'cart_summary' %}" class="btn btn-outline-secondary btn-sm">
                             Update Items
                         </a>
                     </div>
@@ -59,12 +59,18 @@
                     Shipping Info
                 </div>
                 <div class="card-body">
-                    {{ shipping_form.as_p }}
+                    <form method="POST" action="{% url 'billing_info' %}">
+                        {% csrf_token %}
+                        {{ shipping_form.as_p }}
+                        <div class="text-center">
+                            <button href="{% url 'billing_info' %}"
+                                    class="btn btn-secondary"
+                                    type="submit">
+                                Continue To Billing
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </div>
-            <br>
-            <div class="text-center">
-                <a href="#" class="btn btn-secondary">Continue To Billing</a>
             </div>
         </div>
     </div>

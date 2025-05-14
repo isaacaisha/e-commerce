@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Process Order{% endblock %}
+
+{% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon.ico' %}">
+{% endblock %}
+
+<!-- Header -->
+{% block header_title %}<h1 class="display-4 fw-bolder">Process Order</h1>{% endblock %}
+{% block header_subtitle %}
+<p class="lead fw-normal text-white-50 mb-0">
+    Processing Your Order Info... .
+</p>
+<i class="fa-solid fa-arrow-down text-white-50 mb-0"></i>
+{% endblock %}
+
+{% block content %}
+<!-- Section-->
+<div class="container mb-5 mt-5">
+    <div class="row mb-5">
+        <div class="col-md-6 offset-md-3">
+            
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Go Back
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+<!-- /home/siisi/e-commerce/payment/templates/payment/process_order.html -->

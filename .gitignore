@@ -172,4 +172,5 @@ cython_debug/
 
 # Ignore files
 venv
-.env
+.env.dev
+.env.prod
