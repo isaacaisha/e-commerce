@@ -10,6 +10,8 @@ from cart.cart import Cart
 from payment.forms import ShippingForm, PaymentForm
 from payment.models import ShippingAddress, Order, OrderItem
 
+from store.models import Product
+
 
 def _current_date():
     return timezone.now().strftime("%a %d %B %Y")
@@ -81,12 +83,6 @@ def billing_info(request):
         return redirect('home')
 
 
-def payment_success(request):
-    return render(request, 'payment/payment_success.html', {
-        'date': _current_date(),
-    })
-
-
 def process_order(request):
     if request.POST:
         cart = Cart(request)
@@ -113,8 +109,39 @@ def process_order(request):
             create_order = Order(
                 user=user, full_name=full_name, email=email,
                 shipping_address=shipping_address, amount_paid=amount_paid
-                )
+            )
             create_order.save()
+
+            # Add order items
+            # Get the order ID (ForeignKey)
+            order_id = create_order.pk
+
+            # Get product Info
+            for product in cart_products:
+                # Get product ID
+                product_id = product.id
+                # Get product Price
+                if product.is_sale:
+                    price = product.sale_price
+                else:
+                    price = product.price
+                
+                # Get product Quantity
+                for key,value in quantities.items():
+                    if int(key) == product.id:
+                        # Create order item
+                        create_order_item = OrderItem(
+                            order_id=order_id, product_id=product_id, user=user,
+                            quantity=value, price=price
+                        )
+                        create_order_item.save()
+
+            # Delet our cart
+            for key in list(request.session.keys()):
+                if key == 'cart':
+                    # Delete the key
+                    del request.session[key]
+
 
             messages.success(request, "Successfuly Charged.")
             return redirect('home')
@@ -128,10 +155,64 @@ def process_order(request):
                 )
             create_order.save()
             
+            # Add order items
+            # Get the order ID (ForeignKey)
+            order_id = create_order.pk
+
+            # Get product Info
+            for product in cart_products:
+                # Get product ID
+                product_id = product.id
+                # Get product Price
+                if product.is_sale:
+                    price = product.sale_price
+                else:
+                    price = product.price
+                
+                # Get product Quantity
+                for key,value in quantities.items():
+                    if int(key) == product.id:
+                        # Create order item
+                        create_order_item = OrderItem(
+                            order_id=order_id, product_id=product_id,
+                            quantity=value, price=price
+                        )
+                        create_order_item.save()
+
+            # Delet our cart
+            for key in list(request.session.keys()):
+                if key == 'cart':
+                    # Delete the key
+                    del request.session[key]
+
             messages.success(request, "Successfuly Charged.")
             return redirect('home')
     else:
         messages.warning(request, "Access Denied.")
+        return redirect('home')
+
+
+def shipped_dash(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        orders = Order.objects.filter(shipped=True)
+        return render(request, 'payment/shipped_dash.html', {
+            'date': _current_date(),
+            'orders': orders,
+        })
+    else:
+        messages.warning(request, "You must be a superuser to access this page. Please upgrade your account.")
+        return redirect('home')
+
+
+def not_shipped_dash(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        orders = Order.objects.filter(shipped=False)
+        return render(request, 'payment/not_shipped_dash.html', {
+            'date': _current_date(),
+            'orders': orders,
+        })
+    else:
+        messages.warning(request, "You must be a superuser to access this page. Please upgrade your account.")
         return redirect('home')
 
 

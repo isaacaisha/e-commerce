@@ -16,6 +16,7 @@ from .forms import (
     UpdateUserForm,
     ChangePasswordForm,
     UserInfoForm,
+    ProductForm
 )
 
 from payment.models import ShippingAddress
@@ -36,6 +37,24 @@ def home(request):
 
 def about(request):
     return render(request, 'about.html', {
+        'date': _current_date(),
+    })
+
+
+def create_product(request):
+    if not request.user.is_superuser:
+        messages.warning(request, "You must be a superuser to access this page. Please upgrade your account.")
+        return redirect('home') 
+
+    form = ProductForm(request.POST or None, request.FILES or None)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, "Product created successfully.")
+        return redirect('home')
+
+    return render(request, 'create_product.html', {
+        'form': form,
         'date': _current_date(),
     })
 

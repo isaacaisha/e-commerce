@@ -3,7 +3,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django import forms
-from .models import Profile
+from .models import Profile, Product
 
 
 class UserInfoForm(forms.ModelForm):
@@ -94,3 +94,42 @@ class SignUpForm(UserCreationForm):
 		self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
 		self.fields['password2'].label = ''
 		self.fields['password2'].help_text = ''
+
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'price', 'category', 'description', 'image', 'is_sale', 'sale_price']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Product Name'
+            }),
+            'price': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Price'
+            }),
+            'category': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Description'
+            }),
+            'sale_price': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Sale Price'
+            }),
+            'is_sale': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+    	super(ProductForm, self).__init__(*args, **kwargs)
+    	for field_name in self.fields:
+    	    if field_name == 'is_sale':
+    	        self.fields[field_name].label = 'On Sale? '
+    	    else:
+    	        self.fields[field_name].label = ''

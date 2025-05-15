@@ -1,3 +1,5 @@
+# /home/siisi/e-commerce/store/admin.py
+
 from django.contrib import admin
 from .models import Category, Customer, Product, Order, Profile
 from django.contrib.auth.models import User

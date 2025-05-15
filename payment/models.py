@@ -1,8 +1,11 @@
 # /home/siisi/e-commerce/payment/models.py
 
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
 
 from store.models import Product
 
@@ -43,9 +46,21 @@ class Order(models.Model):
     shipping_address = models.TextField(max_length=19999)
     amount_paid = models.DecimalField(max_digits=9, decimal_places=2)
     date_ordered = models.DateTimeField(auto_now_add=True)
+    shipped = models.BooleanField(default=False)
+    date_shipped = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f"Order - {str(self.id)}"
+
+
+# Auto Add shipping date
+@receiver(pre_save, sender=Order)
+def set_shipped_date_on_update(sender, instance, **kwargs):
+    if instance.pk:
+        now = datetime.datetime.now()
+        obj = sender._default_manager.get(pk=instance.pk)
+        if instance.shipped and not obj.shipped:
+            instance.date_shipped = now
 
 
 # Create Order Items Model

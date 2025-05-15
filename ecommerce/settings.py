@@ -14,8 +14,6 @@ dotenv.load_dotenv(dotenv_path=dotenv_file)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
-if not SECRET_KEY:
-    raise ValueError("❌ SECRET_KEY not set in environment!")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
@@ -56,6 +54,9 @@ CORS_ALLOWED_ORIGINS = [
 # HTTPS cookies
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
+
+#LOGIN_URL = '/login/'
+#LOGIN_REDIRECT_URL = '/'
 
 # Application definition
 INSTALLED_APPS = [
@@ -110,8 +111,6 @@ DATABASES = {
         ssl_require=os.getenv('DB_SSL_REQUIRE', 'False').lower() == 'true'
     )
 }
-if not DATABASES['default']:
-    raise ImproperlyConfigured("❌ DATABASE_URL not set")
 
 # Logging
 LOG_DIR = BASE_DIR / 'logs'

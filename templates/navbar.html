@@ -26,33 +26,55 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Search</a></li>
 
                 {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                       Profile
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'update_user' %}">User Profile</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="{% url 'update_info' %}">User Infos</a></li>
-                    </ul>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                           Profile
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'update_user' %}">User Profile</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="{% url 'update_info' %}">User Infos</a></li>
+                        </ul>
+                    </li>
+
+                    {% if user.is_superuser %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Orders
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'shipped_dash' %}">Shipped Orders</a></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'not_shipped_dash' %}">Un-Shipped Orders</a></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'create_product' %}">Create Products</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
                 {% endif %}
 
                 <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
 
-                <!-- Right-aligned elements -->
-                <form class="">
-                    <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark">
-                        <i class="bi-cart-fill me-1"></i>
-                        Cart
-                        <span id="cart_quantity" class="badge bg-dark text-white ms-1 rounded-pill">
-                            {{ cart|length }}
-                        </span>
-                        <span id="cart_total_quantity" class="badge bg-secondary text-white ms-1 rounded-pill">
-                            Total: {{ cart_total_quantity }}
-                        </span>
-                    </a>
+                <!-- Right-aligned elements -->  
+                <form>
+                    <div class="me-2 my-auto">
+                        <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark d-inline-flex align-items-center gap-2 p-1 px-2">
+                            <i class="bi-cart-fill"></i>
+                            <span>Cart</span>
+                            <span id="cart_quantity" class="badge bg-dark text-white rounded-pill px-2 py-1">
+                                {{ cart|length }}
+                            </span>
+                            <span id="cart_total_quantity" class="badge bg-secondary text-white rounded-pill px-2 py-1">
+                                Total: {{ cart_total_quantity }}
+                            </span>
+                        </a>
+                    </div>
                 </form>
 
                 <li class="nav-item dropdown">
@@ -62,19 +84,19 @@
                     </a>
                     <ul class="dropdown-menu mb-3" aria-labelledby="navbarDropdown">
                         {% if user.is_superuser %}
-                        <li><a class="dropdown-item" href="/admin/">Admin</a></li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
+                            <li><a class="dropdown-item" href="/admin/">Admin</a></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
                         {% endif %}
                         {% if user.is_authenticated %}
-                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                         {% else %}
-                        <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-                        <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                            <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
                         {% endif %}
                     </ul>
                 </li>

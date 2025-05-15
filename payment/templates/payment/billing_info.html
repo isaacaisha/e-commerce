@@ -28,24 +28,24 @@
                 </div>
                 <div class="card-body">
                     {% for product in cart_products %}
-                    {{ product.name }}:
-                    {% if product.is_sale %}
-                    ${{ product.sale_price }}
-                    {% else %}
-                    ${{ product.price }}
-                    {% endif %}
-
-                    <br>
-                    <small>
-                        Quantity:
-                        {% for key, value in quantities.items %}
-                        {% if key == product.id|stringformat:"s" %}
-                        {{ value }}
+                        {{ product.name }}:
+                        {% if product.is_sale %}
+                            ${{ product.sale_price }}
+                        {% else %}
+                            ${{ product.price }}
                         {% endif %}
-                        {% endfor %}
-                    </small>
-                    <br>
-                    <hr>
+
+                        <br>
+                        <small>
+                            Quantity:
+                            {% for key, value in quantities.items %}
+                                {% if key == product.id|stringformat:"s" %}
+                                    {{ value }}
+                                {% endif %}
+                            {% endfor %}
+                        </small>
+                        <br>
+                        <hr>
                     {% endfor %}
                     <h6>Total: ${{ totals }}</h6>
                     <div class="text-center">
