@@ -27,12 +27,11 @@
       {% endfor %}
       <div class="container">
          <div class="row justify-content-end">
-            <div class="col-auto text-end"
-                 id="cart-total"
-                  data-checkout-url="{% url 'checkout' %}"
-                  >
-               <h3>Total: ${{ totals }}</h3>
-               <a href="{% url 'checkout' %}" class="btn btn-success mt-2">Checkout</a>
+            <div id="cart-wrapper" data-checkout-url="{% url 'checkout' %}">
+               <div class="col-auto text-end" id="cart-total">
+                  <h3>Total: ${{ totals }}</h3>
+                  <a href="{% url 'checkout' %}" class="btn btn-success mt-2">Checkout</a>
+               </div>
             </div>
          </div>
       </div>

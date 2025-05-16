@@ -23,7 +23,7 @@
         <div class="col-md-6 offset-md-3">
             <div class="card">
                 <div class="card-header text-center">
-                    Order Summary
+                    <strong>Order Summary</strong>
                 </div>
                 <div class="card-body">
                     {% for product in cart_products %}
@@ -56,7 +56,7 @@
 
             <div class="card mt-5">
                 <div class="card-header text-center">
-                    Shipping Info
+                    <strong>Shipping Info</strong>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{% url 'billing_info' %}">

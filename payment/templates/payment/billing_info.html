@@ -24,7 +24,7 @@
         <div class="col-md-6 offset-md-3">
             <div class="card">
                 <div class="card-header text-center">
-                    Order Summary
+                    <strong>Order Summary</strong>
                 </div>
                 <div class="card-body">
                     {% for product in cart_products %}
@@ -58,7 +58,7 @@
 
             <div class="card mb-5 mt-5">
                 <div class="card-header text-center">
-                    Shipping Info
+                    <strong>Shipping Info</strong>
                 </div>
                 <div class="card-body">
                     <p>Name: {{ shipping_info.shipping_full_name }}</p>
@@ -87,7 +87,7 @@
 
             <div class="card mt-5">
                 <div class="card-header text-center">
-                    Billing Info
+                    <strong>Billing Info</strong>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{% url 'process_order' %}">

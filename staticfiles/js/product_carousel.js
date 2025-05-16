@@ -2,13 +2,16 @@
 
 //Carouse / Reverse-cycling Script
 document.addEventListener("DOMContentLoaded", function () {
-  var carouselEl = document.getElementById("carouselExampleIndicators");
-  var carousel = new bootstrap.Carousel(carouselEl, {
-    interval: 5000, // 3s between slides
+  const carouselEl = document.getElementById("carouselExampleIndicators");
+
+  // Manually initialize (no auto-slide unless we define it)
+  const carousel = new bootstrap.Carousel(carouselEl, {
+    interval: false, // disable Bootstrap's internal auto-slide
     wrap: true,
   });
-  // Call prev() every interval to go backwards
-  setInterval(function () {
+
+  // Go backward every 5s
+  setInterval(() => {
     carousel.prev();
-  }, 5000);
+  }, 3000);
 });

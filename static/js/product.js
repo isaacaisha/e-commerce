@@ -27,10 +27,8 @@ $(function () {
         csrfmiddlewaretoken: btn.data("csrf"),
       },
       function (json) {
-        // update navbar badges
         $("#cart_quantity").text(json.distinct_count);
         $("#cart_total_quantity").text(json.total_quantity);
-        // show success alert
         showMessage(json.message, "success");
       }
     );
@@ -39,7 +37,7 @@ $(function () {
   // UPDATE QUANTITY IN CART SUMMARY
   $(document).on("click", ".update-cart", function (e) {
     e.preventDefault();
-    const checkoutUrl = $("#cart-total").data("checkout-url");
+    const checkoutUrl = $("#cart-wrapper").data("checkout-url");
     const btn = $(this),
       pid = btn.data("index"),
       newQty = $(`#select${pid}`).val();
@@ -53,14 +51,15 @@ $(function () {
         csrfmiddlewaretoken: btn.data("csrf"),
       },
       function (json) {
-        // update navbar badges
         $("#cart_quantity").text(json.distinct_count);
         $("#cart_total_quantity").text(json.total_quantity);
-        // update total variable
+
+        // 👇 Re-render the #cart-total without touching the data attribute
         $("#cart-total").html(
           `<h3>Total: $${json.cart_total}</h3>
-          <a href="${checkoutUrl}" class="btn btn-success mt-2">Checkout</a>`
+           <a href="${checkoutUrl}" class="btn btn-success mt-2">Checkout</a>`
         );
+
         showMessage(json.message, "info");
       }
     );
@@ -69,7 +68,7 @@ $(function () {
   // DELETE ITEM CARD
   $(document).on("click", ".delete-cart", function (e) {
     e.preventDefault();
-    const checkoutUrl = $("#cart-total").data("checkout-url");
+    const checkoutUrl = $("#cart-wrapper").data("checkout-url"); // 👈 FIXED
     const btn = $(this),
       pid = btn.data("index");
 
@@ -81,16 +80,14 @@ $(function () {
         csrfmiddlewaretoken: btn.data("csrf"),
       },
       function (json) {
-        // update navbar badges
         $("#cart_quantity").text(json.distinct_count);
         $("#cart_total_quantity").text(json.total_quantity);
-        // update total variable
+
         $("#cart-total").html(
           `<h3>Total: $${json.cart_total}</h3>
-          <a href="${checkoutUrl}" class="btn btn-success mt-2">Checkout</a>`
+           <a href="${checkoutUrl}" class="btn btn-success mt-2">Checkout</a>`
         );
-        
-        // Remove the specific card
+
         $(`#cart-card-${pid}`).fadeOut(200, function () {
           $(this).remove();
         });

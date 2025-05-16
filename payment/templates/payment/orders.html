@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon.ico' %}">
+{% endblock %}
+
+{% block header_title %}
+<h1 class="display-4 fw-bolder text-center">Order Details</h1>
+{% endblock %}
+
+{% block header_subtitle %}
+<p>
+    <i class="fas fa-magnifying-glass fa-3x"></i>
+</p>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-5 px-3">
+    <div class="row">
+        <div class="col-12 col-md-10 col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-header text-center">
+                    <strong>Order {{ order.id }} - ${{ order.amount_paid }}</strong>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Info Details</h5>
+                    <hr>
+                    <p class="card-text">Email: {{ order.email }}</p>
+                    <hr>
+                    {% if order.date_shipped %}
+                        <p class="card-text">Date Shipped: {{ order.date_shipped }}</p>
+                        <hr>
+                    {% else %}
+                        <p class="card-text">Date Ordered: {{ order.date_ordered }}</p>
+                        <hr>
+                    {% endif %}
+                    <p class="card-text">Full Name: {{ order.full_name }}</p>
+                    <hr>
+                    <span>Shipping Address:</span>
+                    <pre class="card-text">{{ order.shipping_address }}</pre>
+                    <hr>
+                    <h5 class="card-title">Item Details</h5>
+                    {% for item in items %}
+                        <hr>
+                        <p>
+                            {{ item.product }} - {{ item.quantity }} - ${{ item.price }}
+                        </p>
+                    {% endfor %}
+                    {% if not order.shipped %}
+                        <div class="mb-3 mt-3">
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name="shipping_status" value="true"><div class="text-center">
+                                    <button type="submit" class="btn btn-outline-success">
+                                        Mark as Shipped
+                                    </button>
+                                </div>
+                            </form>
+                    {% else %}
+                    <!-- not shipped -->
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name="shipping_status" value="false">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-outline-warning">
+                                        Mark as NOT Shipped
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mb-5 mt-5">
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Go Back
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+<!-- /home/siisi/e-commerce/payment/templates/payment/orders.html -->

@@ -1,5 +1,7 @@
 # /home/siisi/e-commerce/payment/views.py
 
+import datetime
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -10,7 +12,7 @@ from cart.cart import Cart
 from payment.forms import ShippingForm, PaymentForm
 from payment.models import ShippingAddress, Order, OrderItem
 
-from store.models import Product
+from store.models import Product, Profile
 
 
 def _current_date():
@@ -142,6 +144,10 @@ def process_order(request):
                     # Delete the key
                     del request.session[key]
 
+            # Delet Cart from DB (delete 'old_cart' after been successfuly charged)
+            current_user = Profile.objects.filter(user__id=request.user.id)
+            # Delete shopping cart in DB (delete 'old_cart' after been successfuly charged)
+            current_user.update(old_cart="")
 
             messages.success(request, "Successfuly Charged.")
             return redirect('home')
@@ -195,9 +201,23 @@ def process_order(request):
 def shipped_dash(request):
     if request.user.is_authenticated and request.user.is_superuser:
         orders = Order.objects.filter(shipped=True)
+
+        if request.POST:
+            status = request.POST['shipping_status']
+            num = request.POST['num']
+            # Get the order
+            order = Order.objects.filter(id=num)
+            # Grab Date & Time
+            now = datetime.datetime.now()
+            # Update Order
+            order.update(shipped=False)
+
+            messages.success(request, "Shipping Status Updated!")
+            return redirect('home')
+
         return render(request, 'payment/shipped_dash.html', {
-            'date': _current_date(),
             'orders': orders,
+            'date': _current_date(),
         })
     else:
         messages.warning(request, "You must be a superuser to access this page. Please upgrade your account.")
@@ -207,9 +227,57 @@ def shipped_dash(request):
 def not_shipped_dash(request):
     if request.user.is_authenticated and request.user.is_superuser:
         orders = Order.objects.filter(shipped=False)
+
+        if request.POST:
+            status = request.POST['shipping_status']
+            num = request.POST['num']
+            # Get the order
+            order = Order.objects.filter(id=num)
+            # Grab Date & Time
+            now = datetime.datetime.now()
+            # Update Order
+            order.update(shipped=True, date_shipped=now)
+
+            messages.success(request, "Shipping Status Updated!")
+            return redirect('home')
+
         return render(request, 'payment/not_shipped_dash.html', {
-            'date': _current_date(),
             'orders': orders,
+            'date': _current_date(),
+        })
+    else:
+        messages.warning(request, "You must be a superuser to access this page. Please upgrade your account.")
+        return redirect('home')
+
+
+def orders(request, pk):
+    if request.user.is_authenticated and request.user.is_superuser:
+        # Get the order
+        order = Order.objects.get(id=pk)
+        # Get the order items
+        items = OrderItem.objects.filter(order=pk)
+
+        if request.POST:
+            status = request.POST['shipping_status']
+            # Check if true or false
+            if status == 'true':
+                # Get the order
+                order = Order.objects.filter(id=pk)
+                # Update the status
+                now = datetime.datetime.now()
+                order.update(shipped=True, date_shipped=now)
+            else:
+                # Get the order
+                order = Order.objects.filter(id=pk)
+                # Update the status
+                order.update(shipped=False)
+            messages.success(request, "Shipping Status Updated!")
+            return redirect('home')
+
+        return render(request, 'payment/orders.html', {
+            'date': _current_date(),
+            'order': order,
+            'items': items,
         })
     else:
         messages.warning(request, "You must be a superuser to access this page. Please upgrade your account.")

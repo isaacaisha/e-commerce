@@ -112,6 +112,18 @@ DATABASES = {
     )
 }
 
+## Ralway Database
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'railway',
+#        'USER': 'postgres',
+#        'PASSWORD': os.getenv('PASSWORD'),
+#        'HOST': 'metro.proxy.rlwy.net',
+#        'PORT': '42903',
+#    }
+#}
+
 # Logging
 LOG_DIR = BASE_DIR / 'logs'
 LOG_DIR.mkdir(exist_ok=True)
