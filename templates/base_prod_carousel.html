@@ -1,3 +1,5 @@
+<!-- /home/siisi/e-commerce/store/templates/base_prod_carousel.html -->
+
 {% load static %}
 
 <!-- Carousel HTML -->
@@ -19,10 +21,10 @@
     {% for product in products %}
       <div class="carousel-item {% if forloop.last %}active{% endif %}">
         <!-- let the image size itself, no cropping -->
-        <img src="{{ product.image.url }}"
-             alt="{{ product.name }}"
-             class="d-block w-100"
-             style="object-fit: contain; max-height: 400px; background-color: #000;">
+        <a href="{% url 'product' product.id %}">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="d-block w-100"
+            style="object-fit: contain; max-height: 400px; background-color: #000;">
+        </a>
         <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-3">
           <h5 class="text-light">{{ product.name }}</h5>
           {% if product.is_sale %}
@@ -96,4 +98,3 @@
     {% endfor %}
   </div>
 </div>
-<!-- /home/siisi/e-commerce/store/templates/base_prod_carousel.html -->

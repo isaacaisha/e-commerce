@@ -19,7 +19,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 if DEBUG:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '142.93.235.205']
+    ALLOWED_HOSTS = [
+        'localhost', '127.0.0.1', '142.93.235.205',
+        '3a2b-46-222-36-184.ngrok-free.app', 'd21d-46-222-36-184.ngrok-free.app',
+    ]
 else:
     ALLOWED_HOSTS = [
         'e-commerce.siisi.online',
@@ -27,7 +30,7 @@ else:
     ]
 
 # Admins (for 500 error notifications)
-ADMINS = [('Admin Isaac Aïsha', 'medusadbt@gmail.com')]
+ADMINS = [('Medusa', 'medusadbt@gmail.com')]
 
 # Security settings
 SECURE_HSTS_SECONDS = 31536000
@@ -41,12 +44,11 @@ X_FRAME_OPTIONS = "DENY"
 
 # Trusted domains
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8007',
     'https://e-commerce.siisi.online',
     'https://www.e-commerce.siisi.online',
+    'https://3a2b-46-222-36-184.ngrok-free.app', 'https://d21d-46-222-36-184.ngrok-free.app',
 ]
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8007',
     'https://e-commerce.siisi.online',
     'https://www.e-commerce.siisi.online',
 ]
@@ -70,6 +72,8 @@ INSTALLED_APPS = [
     'store',
     'cart',
     'payment',
+
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -111,18 +115,6 @@ DATABASES = {
         ssl_require=os.getenv('DB_SSL_REQUIRE', 'False').lower() == 'true'
     )
 }
-
-## Ralway Database
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'railway',
-#        'USER': 'postgres',
-#        'PASSWORD': os.getenv('PASSWORD'),
-#        'HOST': 'metro.proxy.rlwy.net',
-#        'PORT': '42903',
-#    }
-#}
 
 # Logging
 LOG_DIR = BASE_DIR / 'logs'
@@ -183,3 +175,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Paypal Settings
+# Set sandbox to true (for testing))
+PAYPAL_TEST = True
+
+PAYPAL_RECEIVER_EMAIL = 'fakebusinesspaypal@test.com' # Business Sandbox Account
+
+# Stripe Settings
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')

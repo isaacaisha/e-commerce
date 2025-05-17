@@ -4,14 +4,24 @@
 document.addEventListener("DOMContentLoaded", function () {
   const carouselEl = document.getElementById("carouselExampleIndicators");
 
-  // Manually initialize (no auto-slide unless we define it)
   const carousel = new bootstrap.Carousel(carouselEl, {
-    interval: false, // disable Bootstrap's internal auto-slide
+    interval: false, // no auto-slide
     wrap: true,
   });
 
-  // Go backward every 5s
-  setInterval(() => {
+  let intervalId = setInterval(() => {
     carousel.prev();
   }, 3000);
+
+  // Pause on hover
+  carouselEl.addEventListener("mouseenter", () => {
+    clearInterval(intervalId);
+  });
+
+  // Resume on mouse leave
+  carouselEl.addEventListener("mouseleave", () => {
+    intervalId = setInterval(() => {
+      carousel.prev();
+    }, 3000);
+  });
 });

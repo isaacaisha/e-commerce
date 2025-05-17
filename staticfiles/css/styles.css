@@ -10925,3 +10925,11 @@ textarea.form-control-lg {
   position: relative;
   z-index: 2;
 }
+
+/* Scroll down table */
+.scrollable-table {
+  max-height: 400px;
+  overflow-y: auto;
+  display: block;
+  /* important to contain the scrollbar */
+}

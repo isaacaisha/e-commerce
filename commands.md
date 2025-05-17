@@ -108,3 +108,41 @@ docker exec -it ecommerce_dev-ecommerce-1 python manage.py migrate
 docker exec -it ecommerce_dev-ecommerce-1 python manage.py createsuperuser
 # Shell
 docker exec -it ecommerce_dev-ecommerce-1 python manage.py shell
+
+# Paypal Account details
+fakepaypal@test.com
+fakebusinesspaypal@test.com
+siisi321
+
+# Ngrok Recovery codes
+G4E3BPHZJ7
+U6P8XCPA7A
+E2QW73G88C
+4M6EU854QU
+GDM6MBWG3G
+DWKGKYV25J
+FCUK94YWQG
+SKBEH6PGAC
+V6Z26N4VKK
+62UR3AQUXH
+
+<!-- run ngrok for docker & python -->
+ ngrok start --all 
+ <!-- run ngrok for docker -->
+ngrok http 8006 --host-header="localhost:8006"
+<!-- run ngrok for python -->
+ngrok http 8007 --host-header="localhost:8007"
+
+<!-- Run the app on Browser -->
+ <!-- run ngrok for docker on browser -->
+ https://3a2b-46-222-36-184.ngrok-free.app/
+ <!-- run ngrok for python on browser -->
+https://d21d-46-222-36-184.ngrok-free.app/
+
+# Stripe Account details
+E-mail: test@example.com
+Card Number: 4242 4242 4242 4242
+Expiration (MM / YY): 07/39
+CVC: 123
+Cardholder Name: John Doe
+Country/Region: Espagne

@@ -1,86 +1,122 @@
+<!-- /home/siisi/e-commerce/payment/templates/payment/checkout.html -->
+
 {% extends 'base.html' %}
 
 {% load static %}
 
-{% block title %}Checkout{% endblock %}
+{% block title %}Secure Checkout{% endblock %}
 
 {% block favicon %}
 <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon.ico' %}">
 {% endblock %}
 
-<!-- Header -->
-{% block header_title %}<h1 class="display-4 fw-bolder">Checkout</h1>{% endblock %}
+{% block header_title %}<h1 class="display-4 fw-bolder">Secure Checkout</h1>{% endblock %}
 {% block header_subtitle %}
 <p class="lead fw-normal text-white-50 mb-0">
-   Review Your Order... .
+    Review and Confirm Your Order
 </p>
 {% endblock %}
 
 {% block content %}
 <!-- Section-->
 <div class="container mb-5 mt-5">
-    <div class="row mb-5">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-header text-center">
-                    <strong>Order Summary</strong>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Order Summary -->
+            <div class="card shadow-lg mb-4">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0"><i class="fas fa-shopping-cart me-2"></i>Order Summary</h4>
                 </div>
                 <div class="card-body">
-                    {% for product in cart_products %}
-                        {{ product.name }}:
-                        {% if product.is_sale %}
-                            ${{ product.sale_price }}
-                        {% else %}
-                            ${{ product.price }}
-                        {% endif %}
+                    <div class="list-group list-group-flush">
+                        {% for product in cart_products %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">{{ product.name }}</h6>
+                                </div>
+                                <div class="text-end">
+                                    <div class="mt-1">
+                                        {% if product.is_sale %}
+                                        <span class="text-success">${{ product.sale_price }}</span>
+                                        <small class="text-muted text-decoration-line-through ms-2">
+                                            ${{ product.price }}
+                                        </small>
+                                        {% else %}
+                                        <span>${{ product.price }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <small class="text-muted">
+                                        Quantity:
+                                        {% for key, value in quantities.items %}
+                                        {% if key == product.id|stringformat:"s" %}
+                                        {{ value }}
+                                        {% endif %}
+                                        {% endfor %}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
 
-                        <br>
-                        <small>
-                            Quantity:
-                            {% for key, value in quantities.items %}
-                                {% if key == product.id|stringformat:"s" %}
-                                    {{ value }}
-                                {% endif %}
-                            {% endfor %}
-                        </small>
-                        <br><hr>
-                    {% endfor %}
-                    <h6>Total: ${{ totals }}</h6>
-                    <div class="text-center">
-                        <a href="{% url 'cart_summary' %}" class="btn btn-outline-secondary btn-sm">
-                            Update Items
+                    <div class="mt-4 d-flex justify-content-between align-items-center bg-light p-3 rounded">
+                        <h5 class="mb-0">Total Amount:</h5>
+                        <h4 class="mb-0 text-primary">${{ totals }}</h4>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a href="{% url 'cart_summary' %}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-edit me-2"></i>Edit Cart
                         </a>
                     </div>
                 </div>
             </div>
 
-            <div class="card mt-5">
-                <div class="card-header text-center">
-                    <strong>Shipping Info</strong>
+            <!-- Shipping Information -->
+            <div class="card shadow-lg">
+                <div class="card-header bg-info text-white py-3">
+                    <h4 class="mb-0"><i class="fas fa-truck me-2"></i>Shipping Details</h4>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{% url 'billing_info' %}">
                         {% csrf_token %}
-                        {{ shipping_form.as_p }}
-                        <div class="text-center">
-                            <button href="{% url 'billing_info' %}"
-                                    class="btn btn-secondary"
-                                    type="submit">
-                                Continue To Billing
+                        <div class="row g-3">
+                            {{ shipping_form.as_p }}
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-lock me-2"></i>Continue to Secure Payment
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
+
+            <!-- Back Button -->
+            <div class="text-center mt-4">
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Return to Shopping
+                </a>
+            </div>
         </div>
     </div>
-
-    <div class="text-center mt-3">
-        <a href="javascript:history.back()" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Go Back
-        </a>
-    </div>
 </div>
-{% endblock %}
 
-<!-- /home/siisi/e-commerce/payment/templates/payment/checkout.html -->
+<style>
+    .card {
+        border-radius: 15px;
+    }
+
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    .list-group-item {
+        border-left: 0;
+        border-right: 0;
+    }
+</style>
+{% endblock %}

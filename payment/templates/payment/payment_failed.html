@@ -1,20 +1,20 @@
-<!-- /home/siisi/e-commerce/payment/templates/payment/payment_success.html -->
+<!-- /home/siisi/e-commerce/payment/templates/payment/payment_failed.html -->
 
 {% extends 'base.html' %}
 
 {% load static %}
 
-{% block title %}Payment Success{% endblock %}
+{% block title %}Payment Failed{% endblock %}
 
 {% block favicon %}
 <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/favicon/favicon.ico' %}">
 {% endblock %}
 
 <!-- Header -->
-{% block header_title %}<h1 class="display-4 fw-bolder">Payment Success!{% endblock %}
+{% block header_title %}<h1 class="display-4 fw-bolder">Payment Failed{% endblock %}
 {% block header_subtitle %}
 <p class="lead fw-normal text-white-50 mb-0">
-   Your Order has been Completed Successfully... .
+    There was a Problem processing your order, please try again... .
 </p>
 {% endblock %}
 
@@ -23,14 +23,14 @@
     <div class="row">
         <div class="col-12 col-md-10 col-lg-8 mx-auto">
             <div class="text-center">
-                <h1 class="text-success">Successfully Charged</h1>
+                <h1 class="text-danger">Payment Cancelled</h1>
             </div>
         </div>
     </div>
 
     <div class="text-center mt-4">
-        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Go Home
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Go Back
         </a>
     </div>
 </div>
