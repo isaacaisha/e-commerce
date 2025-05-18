@@ -110,8 +110,13 @@ docker exec -it ecommerce_dev-ecommerce-1 python manage.py createsuperuser
 docker exec -it ecommerce_dev-ecommerce-1 python manage.py shell
 
 # Paypal Account details
-fakepaypal@test.com
+<!-- to access sanbox account -->
+https://www.sandbox.paypal.com/signin
+<!-- Vendor E-mail -->
 fakebusinesspaypal@test.com
+<!-- Customer E-mail -->
+fakepaypal@test.com
+<!-- password -->
 siisi321
 
 # Ngrok Recovery codes
@@ -146,3 +151,10 @@ Expiration (MM / YY): 07/39
 CVC: 123
 Cardholder Name: John Doe
 Country/Region: Espagne
+<!-- to access Stripe account -->
+https://dashboard.stripe.com/
+<!-- test -->
+stripe login
+stripe listen --forward-to https://e-commerce.siisi.online/payment/stripe/webhook/
+stripe listen --forward-to localhost:8007/payment/stripe/webhook/
+stripe trigger checkout.session.completed

@@ -1,157 +1,190 @@
-🛒 E-Commerce Platform
-A powerful, scalable, and modern Django-based e-commerce platform with customizable features for sellers, customers, and administrators.
+# 🛒 Django E-Commerce Platform
 
-🚀 Features
-✅ User authentication (sign up, login, logout)
+A powerful, scalable, Django-based e-commerce platform with Stripe **&** PayPal support, full admin dashboard, inventory tracking, SEO optimizations, and email notifications.
 
-🛍️ Product listing, search, categories, and filters
+![Platform Demo](static/assets/images/e-commerce.jpeg)
 
-💼 Shopping cart and order management
+---
 
-💳 Payment gateway integration: Stripe and PayPal-ready
+## 🚀 Key Features
 
-🛠️ Admin dashboard with analytics
+- **User Authentication** 🔐  
+- **Product Catalog** (search, categories, filters) 🛍️  
+- **Shopping Cart & Orders** 📦  
+- **Stripe & PayPal Integration** 💳  
+- **Admin Dashboard** with analytics 📊  
+- **SEO-Optimized Pages** 🔍  
+- **Email Notifications** 📧  
 
-🌐 SEO-optimized product pages
+---
 
-📦 Inventory and stock tracking
+## 🧑‍💻 Technology Stack
 
-📬 Email notifications for orders and registration
+| Layer        | Technologies                             |
+| ------------ | ---------------------------------------- |
+| **Backend**  | Django 4, Python 3.10+, PostgreSQL       |
+| **Frontend** | Bootstrap 5, JavaScript                  |
+| **Payments** | Stripe (`stripe`), PayPal (`django-paypal`) |
+| **DevOps**   | Docker, Docker Compose, Nginx, Gunicorn  |
+| **CI/CD**    | GitHub Actions (optional)                |  
+| **Security** | CSRF, HSTS, Secure & HttpOnly cookies    |
 
-## 🖼️ Screenshots
+---
 
-| Homepage | Product Page | Admin Panel |
-|----------|--------------|-------------|
-| ![Home](https://via.placeholder.com/300x150.png?text=Homepage) | ![Product](https://via.placeholder.com/300x150.png?text=Product+Page) | ![Admin](https://via.placeholder.com/300x150.png?text=Admin+Dashboard) |
-	
+## 🛠️ Installation (Development)
 
-🧑‍💻 Tech Stack
-Backend: Django, PostgreSQL
-
-Frontend: HTML5 / Bootstrap, JavaScript
-
-Payments: Stripe API, django-paypal
-
-DevOps: Docker, Nginx, Gunicorn
-
-Hosting: DigitalOcean
-
-CI/CD: GitHub Actions (optional)
-
-🛠️ Installation
-bash
-Copy
-Edit
-# Clone the repository
+# 1. Clone repo
 git clone https://github.com/isaacaisha/e-commerce.git
 cd e-commerce
 
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# 2. Create & activate venv
 
-# Install dependencies
+python3 -m venv venv
+source venv/bin/activate       # Windows: venv\Scripts\activate
+
+# 3. Install deps
+```shell
+pip install --upgrade pip
 pip install -r requirements.txt
+```
 
-# Setup environment variables (.env or export in shell)
-# Example:
-# SECRET_KEY=your-secret-key
-# DEBUG=True
-# STRIPE_SECRET_KEY=your-stripe-secret-key
-# STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
-# PAYPAL_RECEIVER_EMAIL=your-paypal-email@example.com
-# DATABASE_URL=postgres://user:password@host:port/dbname
-# SECURE_SSL_REDIRECT=False (for dev)
-
-# Apply migrations
-python manage.py migrate
-
-# Create superuser for admin access
-python manage.py createsuperuser
-
-# Collect static files (for production)
-python manage.py collectstatic
-
-# Start the development server
-python manage.py runserver
-⚙️ Configuration Details
-Stripe Integration
-Add your Stripe keys in environment variables:
-
-ini
-Copy
-Edit
+# 4. Create .env.dev from example
+cp .env.example .env.dev
+Edit .env.dev:
+```python
+SECRET_KEY=your_django_secret_key
+DEBUG=True
+DATABASE_URL=postgres://user:pass@localhost:5432/dbname
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-Stripe payment flow handled via checkout sessions and webhook for payment confirmation.
+PAYPAL_RECEIVER_EMAIL=you@sandbox.paypal.com
+```
 
-PayPal Integration
-Set PayPal receiver email in environment:
+# 5. Run migrations & create superuser
+```python
+python manage.py migrate
+python manage.py createsuperuser
+```
+# 6. Collect static files (optional for production)
+```python
+python manage.py collectstatic --noinput
+```
+# 7. Start dev server
+```python
+python manage.py runserver
+```
+⚙️ Configuration (Production)
 
-ini
-Copy
-Edit
-PAYPAL_RECEIVER_EMAIL=your-paypal-email@example.com
-Uses django-paypal for PayPal Payments Standard and IPN (Instant Payment Notification) handling.
+# 1. Build & deploy with Docker
+```shell
+docker-compose -f docker-compose.prod.yml up --build -d
+```
 
-🚦 Usage
-Browse products and add to cart
+# 2. Set environment variables in .env.prod:
+```python
+DEBUG=False
+ALLOWED_HOSTS=e-commerce.siisi.online,www.e-commerce.siisi.online
+SECURE_SSL_REDIRECT=True
+DATABASE_URL=postgres://django_user:secret_password@db:5432/django_db
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_WEBHOOK_SECRET_PROD=whsec_...
+PAYPAL_RECEIVER_EMAIL=you@business.email
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=your_email@gmail.com
+EMAIL_HOST_PASSWORD=your_email_password
+```
 
-Proceed to checkout and fill in shipping details
+# 3. Obtain and install Let’s Encrypt certificates, enable HSTS
+# 4. Configure Nginx to proxy to Gunicorn on port 8005
 
-Choose payment method: Stripe or PayPal
+🎯 Usage
+# 1. Browse catalog, add items to cart
+# 2. Checkout: fill shipping → choose Stripe or PayPal
+# 3. Complete payment on Stripe/PayPal
+# 4. Order auto-marked paid via webhook (Stripe) or IPN (PayPal)
+# 5. Admin: view & toggle shipped status in dashboard
 
-Complete payment on respective platform
-
-Order status updated automatically via Stripe webhook or PayPal IPN
-
-Admin dashboard shows shipped and unshipped orders with management features
-
-🛡️ Security & Best Practices
-HTTPS enforced in production with HSTS enabled
-
-CSRF protection active on all forms
-
-Secure cookies with Secure and HttpOnly flags in production
-
-Sensitive keys and credentials stored in environment variables, never in source code
-
-📝 Project Structure Overview
-php
-Copy
-Edit
-├── ecommerce/                  # Django project root
-│   ├── settings.py             # Project settings with env variable config
-│   ├── urls.py                 # URL routing including payment endpoints
-│   └── wsgi.py / asgi.py
-├── payment/                    # App for payment and order processing
-│   ├── views.py                # Checkout, payment, webhook, PayPal integration
-│   ├── models.py               # Order, OrderItem, ShippingAddress models
-│   ├── forms.py                # Shipping and payment forms
-│   └── urls.py                 # Payment-related URL patterns
-├── store/                     # Product app and user profile management
+📂 Project Structure
+```python
+e-commerce/
+├── ecommerce/                 # Django project root
+│   ├── __init__.py
+│   ├── settings.py            # Env-backed config (Stripe, PayPal, DB)
+│   ├── urls.py                # URL routing (including payment endpoints)
+│   └── wsgi.py                # WSGI entrypoint
+│
+├── payment/                   # Payment & order app
+│   ├── __init__.py
+│   ├── views.py               # Stripe & PayPal flows + webhooks
+│   ├── models.py              # Order, OrderItem, ShippingAddress
+│   ├── forms.py               # ShippingForm, PaymentForm
+│   ├── urls.py                # checkout, webhook URLs
+│   └── templates/payment/     # HTML templates for payment views
+│
+├── store/                     # Product & profile management
+│   ├── __init__.py
+│   ├── views.py
+│   ├── models.py
+│   └── templates/store/       # Templates for product pages, categories, etc.
+│
 ├── cart/                      # Shopping cart logic
-├── templates/                 # HTML templates for frontend views
-├── static/                    # Static assets (CSS, JS, images)
+│   ├── __init__.py
+│   └── cart.py
+│
+├── templates/                 # Shared base templates
+│   └── base.html
+│
+├── static/                    # CSS, JS, images
+│   ├── css/
+│   ├── js/
+│   └── assets/
+│       └── images/
+│           └── e-commerce.jpeg
+│
+├── media/                     # Uploaded media (user uploads)
+│
+├── docker-compose.dev.yml     # Dev Docker Compose
+├── docker-compose.prod.yml    # Prod Docker Compose
+├── Dockerfile                 # Production Dockerfile
+├── entrypoint.sh              # Docker entrypoint script
 ├── requirements.txt           # Python dependencies
-└── manage.py                  # Django CLI tool
+├── .env.example               # Example env vars
+└── manage.py                  # Django CLI
+```
+
+🔒 Security Features
+HTTPS & HSTS in production
+
+CSRF Protection on all forms
+
+Password Hashing with PBKDF2
+
+Secure Cookies (Secure & HttpOnly flags)
+
+Content Security Policy (CSP) headers
+
+Environment Variables for all secrets (no hard-coding)
+
+Logging to console & file for error tracking
+
 📦 Dependencies
-Django
+```python
+Django==4.2.7
+psycopg2-binary==2.9.7
+stripe==5.5.0
+django-paypal==2.0
+dj-database-url==1.0.0
+python-dotenv==1.0.0
+whitenoise==6.5.0
+```
 
-psycopg2-binary (PostgreSQL adapter)
-
-stripe (Stripe SDK)
-
-django-paypal
-
-dj-database-url
-
-python-dotenv
-
-whitenoise (for serving static files)
-
-📬 Contact / Support
-For issues or contributions, please open an issue or pull request on GitHub.
+📬 Support & Contribution
+Found a bug? Open an issue on GitHub.
+Want to contribute? Submit a PR!
 
 📜 License
-MIT License
+MIT License – See LICENSE.md for details.
+
+Made with ❤️ by IsaacAïsha – contributions welcome!
