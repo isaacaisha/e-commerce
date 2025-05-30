@@ -21,7 +21,7 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 if DEBUG:
     ALLOWED_HOSTS = [
         'localhost', '127.0.0.1', '142.93.235.205',
-        '3a2b-46-222-36-184.ngrok-free.app', 'd21d-46-222-36-184.ngrok-free.app',
+        '1ddf-46-222-115-173.ngrok-free.app', '7085-46-222-115-173.ngrok-free.app',
     ]
 else:
     ALLOWED_HOSTS = [
@@ -46,7 +46,6 @@ X_FRAME_OPTIONS = "DENY"
 CSRF_TRUSTED_ORIGINS = [
     'https://e-commerce.siisi.online',
     'https://www.e-commerce.siisi.online',
-    'https://3a2b-46-222-36-184.ngrok-free.app', 'https://d21d-46-222-36-184.ngrok-free.app',
 ]
 CORS_ALLOWED_ORIGINS = [
     'https://e-commerce.siisi.online',

@@ -63,7 +63,7 @@ docker images
 docker ps -a
 <!-- Create & start container in detached mode -->
 docker run -d --name web -p 8000:8005 ecommerce:latest
-<!!-- View logs from a container -->
+<!-- View logs from a container -->
 docker logs web
 <!-- Start an interactive shell inside a running container -->
 docker exec -it web bash
