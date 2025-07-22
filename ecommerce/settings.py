@@ -29,9 +29,6 @@ else:
         'www.e-commerce.siisi.online',
     ]
 
-# Admins (for 500 error notifications)
-ADMINS = [('Medusa', 'medusadbt@gmail.com')]
-
 # Security settings
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
