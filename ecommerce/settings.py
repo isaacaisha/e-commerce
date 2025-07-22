@@ -20,12 +20,12 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 if DEBUG:
     ALLOWED_HOSTS = [
-        'localhost', '127.0.0.1', '142.93.235.205',
+        'localhost', '127.0.0.1', '142.93.235.205', '0.0.0.0',
         '1ddf-46-222-115-173.ngrok-free.app', '7085-46-222-115-173.ngrok-free.app',
     ]
 else:
     ALLOWED_HOSTS = [
-        'e-commerce.siisi.online',
+        'e-commerce.siisi.online', '0.0.0.0',
         'www.e-commerce.siisi.online',
     ]
 

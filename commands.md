@@ -13,7 +13,10 @@ python manage.py makemigrations
 python manage.py migrate
 
 sudo journalctl -u e-commerce.service -f
-python manage.py runserver 0.0.0.0:8007
+
+source venv/bin/activate
+export DATABASE_URL=postgresql://postgres:Toure7Medina@localhost:5432/django_db
+python manage.py runserver 0.0.0.0:8079
 
 # CONNECT POSTGRES
 sudo -i -u postgres
