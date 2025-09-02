@@ -1,13 +1,51 @@
 # /home/siisi/e-commerce/.dockerignore
 
-__pycache__
+# Git version control
+.git
+.gitignore
+
+# Docker
+.dockerignore
+docker-compose.yml
+docker-compose.prod.yml
+Dockerfile
+
+# Python virtual environment
+.venv
+venv
+env/
+venv.bak
+env.bak
+
+# Python cache and compiled files
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
-env
-venv
-.git
-.gitignore
+
+# Django local database
+db.sqlite3
+db.sqlite3-journal
+
+# Django collected static files and user media
+# These should be handled by volumes or collected inside the container, not copied in the build.
+staticfiles/
+static_root/
+media/
+media_root/
+
+# Node.js dependencies (very important, can be huge)
+node_modules/
+npm-debug.log
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*~
 .DS_Store
-/staticfiles
-/media
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/

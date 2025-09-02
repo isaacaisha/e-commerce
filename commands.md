@@ -82,7 +82,7 @@ docker-compose -f docker-compose.prod.yml -p ecommerce_prod down -v
 docker-compose -f docker-compose.prod.yml -p ecommerce_prod up -d --build
 docker-compose -f docker-compose.prod.yml -p ecommerce_prod ps
 docker-compose -f docker-compose.prod.yml -p ecommerce_prod down
-docker-compose -f docker-compose.prod.yml -p ecommerce_prod up -d --remove-orphans
+docker-compose -f docker-compose.prod.yml -p ecommerce_prod up -d --remove-orphans --build
 docker-compose -f docker-compose.prod.yml -p ecommerce_prod logs -f nginx
 docker-compose -f docker-compose.prod.yml -p ecommerce_prod logs -f
 
@@ -91,7 +91,7 @@ docker compose -f docker-compose.dev.yml -p ecommerce_dev run ecommerce python m
 docker-compose -f docker-compose.dev.yml down --volumes --remove-orphans
 docker system prune -a --volumes 
 docker-compose -f docker-compose.dev.yml -p ecommerce_dev down -v
-docker-compose -f docker-compose.dev.yml -p ecommerce_dev up -d --build
+docker-compose -f docker-compose.dev.yml -p ecommerce_dev up -d --build --remove-orphans
 docker-compose -f docker-compose.dev.yml -p ecommerce_dev ps
 docker-compose -f docker-compose.dev.yml -p ecommerce_dev down
 docker-compose -f docker-compose.dev.yml -p ecommerce_dev up -d
@@ -102,7 +102,7 @@ docker-compose -f docker-compose.dev.yml -p ecommerce_dev logs -f
 <!-- prod -->
 docker exec -it ecommerce_prod-ecommerce-1 python manage.py makemigrations
 docker exec -it ecommerce_prod-ecommerce-1 python manage.py migrate
-docker exec -it ecommerce_prod-ecommerce-1 python manage.py createsuperuser
+docker exec -it e-commerce-ecommerce-1 python manage.py createsuperuser
 # Shell
 docker exec -it ecommerce_prod-ecommerce-1 python manage.py shell
 <!-- dev -->

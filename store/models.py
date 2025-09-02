@@ -59,7 +59,8 @@ class Customer(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=91)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=8)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    # Category field optional
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None, blank=True, null=True)
     description = models.CharField(default='', blank=True, null=True, max_length=250)
     image = models.ImageField(upload_to='uploads/products/')
     # Add Sale

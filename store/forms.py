@@ -97,9 +97,17 @@ class SignUpForm(UserCreationForm):
 
 
 class ProductForm(forms.ModelForm):
+    # Add an optional field for creating a new category
+    new_category_name = forms.CharField(
+        label="Or add a new category",
+        max_length=55,
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'New Category Name'})
+    )
+
     class Meta:
         model = Product
-        fields = ['name', 'price', 'category', 'description', 'image', 'is_sale', 'sale_price']
+        fields = ['name', 'price', 'new_category_name', 'category', 'description', 'image', 'is_sale', 'sale_price']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -127,9 +135,12 @@ class ProductForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-    	super(ProductForm, self).__init__(*args, **kwargs)
-    	for field_name in self.fields:
-    	    if field_name == 'is_sale':
-    	        self.fields[field_name].label = 'On Sale? '
-    	    else:
-    	        self.fields[field_name].label = ''
+        super(ProductForm, self).__init__(*args, **kwargs)
+        # Empty choice for category dropdown
+        self.fields['category'].empty_label = "Select Category"
+
+        for field_name in self.fields:
+            if field_name == 'is_sale':
+                self.fields[field_name].label = 'On Sale? '
+            else:
+                self.fields[field_name].label = ''

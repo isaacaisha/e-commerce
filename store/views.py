@@ -37,18 +37,51 @@ def about(request):
         'date': _current_date(),
     })
 
+#@login_required
+#def create_product(request):
+#    if not request.user.is_superuser:
+#        messages.warning(request, "You must be a superuser to access this page.")
+#        return redirect('home') 
+#
+#    form = ProductForm(request.POST or None, request.FILES or None)
+#
+#    if request.method == 'POST' and form.is_valid():
+#        form.save()
+#        messages.success(request, "Product created successfully.")
+#        return redirect('home')
+#
+#    return render(request, 'create_product.html', {
+#        'form': form,
+#        'date': _current_date(),
+#    })
+
 @login_required
 def create_product(request):
     if not request.user.is_superuser:
         messages.warning(request, "You must be a superuser to access this page.")
         return redirect('home') 
 
-    form = ProductForm(request.POST or None, request.FILES or None)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_category_name = form.cleaned_data.get('new_category_name')
 
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        messages.success(request, "Product created successfully.")
-        return redirect('home')
+            # Get the product object but don't save yet
+            product = form.save(commit=False)
+
+            if new_category_name:
+                # Create a new category if provided
+                new_category, created = Category.objects.get_or_create(name=new_category_name)
+                # Assign the newly created category
+                product.category = new_category
+            
+            # Save the product, with or without a category
+            product.save()
+            messages.success(request, "Product created successfully.")
+            return redirect('home')
+
+    else:
+        form = ProductForm()
 
     return render(request, 'create_product.html', {
         'form': form,
