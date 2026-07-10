@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     'cart',
     'payment',
 
-    'paypal.standard.ipn',
+    'ecommerce.apps.PaypalIpnConfig',
 ]
 
 MIDDLEWARE = [
