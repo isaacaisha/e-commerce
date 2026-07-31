@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/payment/models.py
+# /home/siisi-site/e-commerce/payment/models.py
 
 import datetime
 

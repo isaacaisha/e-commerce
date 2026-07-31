@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/payment/views.py
+# /home/siisi-site/e-commerce/payment/views.py
 
 import json
 import stripe

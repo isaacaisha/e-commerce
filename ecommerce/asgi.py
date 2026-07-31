@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/ecommerce/asgi.py
+# /home/siisi-site/e-commerce/ecommerce/asgi.py
 
 import os
 

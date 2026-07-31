@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/payment/hooks.py
+# /home/siisi-site/e-commerce/payment/hooks.py
 
 import time
 

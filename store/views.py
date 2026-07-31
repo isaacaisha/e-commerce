@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/store/views.py
+# /home/siisi-site/e-commerce/store/views.py
 
 import json
 from django.shortcuts import render, redirect, get_object_or_404

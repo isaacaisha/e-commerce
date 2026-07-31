@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/payment/forms.py
+# /home/siisi-site/e-commerce/payment/forms.py
 
 from django import forms
 from .models import ShippingAddress

@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/cart/cart.py
+# /home/siisi-site/e-commerce/cart/cart.py
 
 import json
 

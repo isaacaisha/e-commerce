@@ -36,7 +36,7 @@ sudo certbot --nginx
 sudo ln -s /etc/nginx/sites-available/e-commerce /etc/nginx/sites-enabled/
 
 sudo certbot certificates
-sudo certbot --nginx -d e-commerce.siisi.online -d www.e-commerce.siisi.online
+sudo certbot --nginx -d e-commerce.siisi.site -d www.e-commerce.siisi.site
 
 sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
@@ -50,10 +50,10 @@ sudo lsof -t -iTCP:8005 -sTCP:LISTEN | xargs sudo kill
 ifconfig | grep inet
 # Find Remote IP Address
 curl https://icanhazip.com
-142.93.235.205:8007
+64.227.69.111:8007
 
 # Testing
-python -m gunicorn --workers 3 --bind unix:/home/siisi/e-commerce/e-commerce.sock siisi.wsgi:application
+python -m gunicorn --workers 3 --bind unix:/home/siisi-site/e-commerce/e-commerce.sock siisi.wsgi:application
 
 
 # Docker 
@@ -158,6 +158,6 @@ Country/Region: Espagne
 https://dashboard.stripe.com/
 <!-- test -->
 stripe login
-stripe listen --forward-to https://e-commerce.siisi.online/payment/stripe/webhook/
+stripe listen --forward-to https://e-commerce.siisi.site/payment/stripe/webhook/
 stripe listen --forward-to localhost:8007/payment/stripe/webhook/
 stripe trigger checkout.session.completed

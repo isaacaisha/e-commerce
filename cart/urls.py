@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/cart/urls.py
+# /home/siisi-site/e-commerce/cart/urls.py
 
 from django.urls import path
 from . import views

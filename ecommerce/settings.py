@@ -25,8 +25,8 @@ if DEBUG:
     ]
 else:
     ALLOWED_HOSTS = [
-        'e-commerce.siisi.online', '0.0.0.0',
-        'www.e-commerce.siisi.online',
+        'e-commerce.siisi.site', '0.0.0.0',
+        'www.e-commerce.siisi.site',
     ]
 
 # Security settings
@@ -41,12 +41,12 @@ X_FRAME_OPTIONS = "DENY"
 
 # Trusted domains
 CSRF_TRUSTED_ORIGINS = [
-    'https://e-commerce.siisi.online',
-    'https://www.e-commerce.siisi.online',
+    'https://e-commerce.siisi.site',
+    'https://www.e-commerce.siisi.site',
 ]
 CORS_ALLOWED_ORIGINS = [
-    'https://e-commerce.siisi.online',
-    'https://www.e-commerce.siisi.online',
+    'https://e-commerce.siisi.site',
+    'https://www.e-commerce.siisi.site',
 ]
 
 # HTTPS cookies

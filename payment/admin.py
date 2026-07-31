@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/payment/admin.py
+# /home/siisi-site/e-commerce/payment/admin.py
 
 from django.contrib import admin
 from .models import ShippingAddress, Order, OrderItem

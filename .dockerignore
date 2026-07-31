@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/.dockerignore
+# /home/siisi-site/e-commerce/.dockerignore
 
 # Git version control
 .git

@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/store/forms.py
+# /home/siisi-site/e-commerce/store/forms.py
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm

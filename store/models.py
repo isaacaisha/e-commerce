@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/store/models.py
+# /home/siisi-site/e-commerce/store/models.py
 
 from django.db import models
 import datetime

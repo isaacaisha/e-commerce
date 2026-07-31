@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/payment/urls.py
+# /home/siisi-site/e-commerce/payment/urls.py
 
 from django.urls import path, include
 from . import views

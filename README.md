@@ -104,7 +104,7 @@ docker-compose -f docker-compose.prod.yml up --build -d
 
 ```dotenv
 DEBUG=False
-ALLOWED_HOSTS=e-commerce.siisi.online,www.e-commerce.siisi.online
+ALLOWED_HOSTS=e-commerce.siisi.site,www.e-commerce.siisi.site
 SECURE_SSL_REDIRECT=True
 DATABASE_URL=postgres://django_user:secret_password@db:5432/django_db
 STRIPE_SECRET_KEY=sk_live_...

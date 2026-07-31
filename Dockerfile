@@ -1,4 +1,4 @@
-# /home/siisi/e-commerce/Dockerfile
+# /home/siisi-site/e-commerce/Dockerfile
 
 # 1. Base image
 FROM python:3.12.0
